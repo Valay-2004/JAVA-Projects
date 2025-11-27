@@ -1,43 +1,34 @@
 import java.util.*;
-import java.io.*;
 import exceptions.*;
 
 public class GradeManager {
-    private Map<String, Student> students;  // Stores students by ID
-    private String dataFile = "data/students.txt";
+    private Map<String, Student> students;
 
     public GradeManager() {
         students = new HashMap<>();
-        // Initialize with some sample data or load from file
+        // Add sample student for testing
+        addStudent("John Doe", "S001");
     }
 
-    // Method to add a new student
     public void addStudent(String name, String id) {
-        // Create and store student
+        // Create new student and add to map
+        // Use student ID as the key
     }
 
-    // Method to add grade to existing student
     public void addGradeToStudent(String studentId, double grade)
             throws StudentNotFoundException, InvalidGradeException {
-        // Find student and add grade
+        // 1. Find student by ID
+        // 2. If student exists, add grade to their record
+        // 3. If student doesn't exist, throw StudentNotFoundException
     }
 
-    // Method to get student by ID
     public Student getStudent(String id) throws StudentNotFoundException {
-        // Return student or throw exception if not found
+        // 1. Look up student in the map
+        // 2. Return student if found
+        // 3. Throw exception if not found
     }
 
-    // File operations
-    public void saveToFile() throws IOException {
-        // Write all students to file
-    }
-
-    public void loadFromFile() throws IOException {
-        // Read students from file
-    }
-
-    // Utility method to list all students
     public void displayAllStudents() {
-        // Print all students and their averages
+        // Loop through all students and print their info
     }
 }
