@@ -39,7 +39,7 @@ public class GradeManager {
         // Loop through all students and print their info
         // adding this just to commit
         for(Student s : students.values()){
-            System.out.println("Name: " + s.getName() + ", ID: " + s.getId() + ", Grades: " + s.getGrades() + ", Average grade: " + s.getAverageGrades());
+            System.out.println("Name: " + s.getName() + ", ID: " + s.getId() + ", Grades: " + s.getGrades() + ", Average grade: " + s.getAverageGrade());
 
         }
     }
