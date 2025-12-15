@@ -26,7 +26,7 @@ public class Student{
     }
 
     // method for getting the average grades
-    public double getAverageGrades(){
+    public double getAverageGrade(){
         if(grades.isEmpty()) return 0.0;
         double sum = 0;
         for(double grade : grades){
@@ -42,6 +42,6 @@ public class Student{
 
     @Override
     public String toString(){
-        return String.format("Student: %s (ID - %s) - Average: %.2f", name, id, getAverageGrades());
+        return String.format("Student: %s (ID - %s) - Average: %.2f", name, id, getAverageGrade());
     }
 }
