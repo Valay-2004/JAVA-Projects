@@ -44,4 +44,13 @@ public class Student{
     public String toString(){
         return String.format("Student: %s (ID - %s) - Average: %.2f", name, id, getAverageGrade());
     }
+
+    public String toCsvString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(id).append(",").append(name);
+        for(double grade : grades){
+            sb.append(",").append(grade);
+        }
+        return sb.toString();
+    }
 }
