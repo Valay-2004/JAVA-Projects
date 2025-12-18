@@ -1,7 +1,12 @@
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import exceptions.*;
 
 public class GradeManager {
+    private String dataFile = "data/students.txt";
     private Map<String, Student> students;
 
     public GradeManager() {
@@ -41,6 +46,47 @@ public class GradeManager {
         for(Student s : students.values()){
             System.out.println("Name: " + s.getName() + ", ID: " + s.getId() + ", Grades: " + s.getGrades() + ", Average grade: " + s.getAverageGrade());
 
+        }
+    }
+
+    public void saveToFile() throws IOException{
+        File directory = new File("data");
+
+        // Check if the directory already exists
+        if(!directory.exists()){
+            directory.mkdirs();
+        }
+        try (PrintWriter writer = new PrintWriter((new FileWriter(dataFile, false)))) {
+            // Write the student's data as a single line
+            for (Student student : students.values()) {
+                writer.println(student.toCsvString());
+            }
+            System.out.println("Student was successfully added to the record file");
+        } catch (IOException e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }
+
+    public void loadFromFile() throws IOException{
+        Path path = Paths.get(dataFile);
+        if(!Files.exists(path)){
+            System.out.println("File does not exists in given path");
+        }
+        try (BufferedReader reader = new BufferedReader(new FileReader(dataFile))){
+            String line;
+            List<List<String>> records = new ArrayList<>();
+            // Read lines until readLine() return null (EOS)
+            while((line = reader.readLine()) != null){
+                String[] values = line.split(",");
+                // add the resulting array of values to a list of records
+                records.add(Arrays.asList(values));
+            }
+            // Process or print the records
+            for(List<String> record : records){
+                System.out.println(record);
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
         }
     }
 }
