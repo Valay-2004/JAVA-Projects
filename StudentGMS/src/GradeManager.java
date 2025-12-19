@@ -1,13 +1,10 @@
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 import exceptions.*;
 
 public class GradeManager {
-    private String dataFile = "data/students.txt";
-    private Map<String, Student> students;
+    private final String dataFile = "data/students.txt";
+    private final Map<String, Student> students;
 
     public GradeManager() {
         students = new HashMap<>();
@@ -67,26 +64,40 @@ public class GradeManager {
         }
     }
 
-    public void loadFromFile() throws IOException{
-        Path path = Paths.get(dataFile);
-        if(!Files.exists(path)){
-            System.out.println("File does not exists in given path");
+    public void loadFromFile() throws IOException {
+        File file = new File(dataFile);
+        if(!file.exists()){
+            System.out.println("No saved data found");
+            return; // Exit early if no file exists
         }
         try (BufferedReader reader = new BufferedReader(new FileReader(dataFile))){
             String line;
-            List<List<String>> records = new ArrayList<>();
-            // Read lines until readLine() return null (EOS)
             while((line = reader.readLine()) != null){
-                String[] values = line.split(",");
-                // add the resulting array of values to a list of records
-                records.add(Arrays.asList(values));
+                try{
+                    String[] parts = line.split(",", -1); // -1 keeps empty trailing fields
+
+                    // Extract student data
+                    String id = parts[0];
+                    String name = parts[1];
+
+                    // Create student object
+                    Student student = new Student(name, id);
+
+                    // Add grades (starting from index 2)
+                    for(int i = 2; i < parts.length; i++){
+                        if(!parts[i].trim().isEmpty()){
+                            double grade = Double.parseDouble(parts[i].trim());
+                            student.addGrade(grade);
+                        }
+                    }
+                    // Add student to our collection
+                    students.put(id, student);
+                } catch (NumberFormatException e){
+                    System.out.println("Skipping invalid grade in line: " + line);
+                } catch (InvalidGradeException e){
+                    System.out.println("Skipping invalid grade value in line: " + line + " - " + e.getMessage());
+                }
             }
-            // Process or print the records
-            for(List<String> record : records){
-                System.out.println(record);
-            }
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
         }
     }
 }
