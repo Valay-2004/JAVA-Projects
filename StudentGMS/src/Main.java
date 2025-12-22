@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
-    private static GradeManager manager = new GradeManager();
-    private static Scanner scanner = new Scanner(System.in);
+    private static final GradeManager manager = new GradeManager();
+    private static final Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
         //  This is my first project after long time
         // What we are going to make
