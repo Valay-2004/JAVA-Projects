@@ -1,5 +1,7 @@
+import java.math.BigDecimal;
+
 public class Account {
-    private double balance;
+    private BigDecimal balance;
     private String accHolderName;
     private String accountNumber;
     private AccountType accountType;
@@ -11,7 +13,7 @@ public class Account {
         FIXED_DEPOSIT
     }
 
-    public Account(double balance, String accountNumber, String accHolderName, AccountType accountType){
+    public Account(BigDecimal balance, String accountNumber, String accHolderName, AccountType accountType){
         this.balance = balance;
         this.accountNumber = accountNumber;
         this.accHolderName = accHolderName;
@@ -23,7 +25,7 @@ public class Account {
         return accountType;
     }
 
-    public double getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
