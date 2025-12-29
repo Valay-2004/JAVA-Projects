@@ -9,14 +9,14 @@ public class Account {
     private String accountNumber;
     private AccountType accountType;
 
-    public enum AccountType{
+    public enum AccountType {
         SAVINGS,
         CHECKING,
         BUSINESS_CHECKING,
         FIXED_DEPOSIT
     }
 
-    public Account(BigDecimal balance, String accountNumber, String accHolderName, AccountType accountType){
+    public Account(BigDecimal balance, String accountNumber, String accHolderName, AccountType accountType) {
         this.balance = balance;
         this.accountNumber = accountNumber;
         this.accHolderName = accHolderName;
@@ -24,7 +24,7 @@ public class Account {
     }
 
     // Getters and Setters
-    public AccountType getAccountType(){
+    public AccountType getAccountType() {
         return accountType;
     }
 
@@ -41,17 +41,17 @@ public class Account {
         return accHolderName;
     }
 
-    public void setAccountType(AccountType accountType){
+    public void setAccountType(AccountType accountType) {
         this.accountType = accountType;
     }
 
-    public void deposit(BigDecimal amount){
+    public void deposit(BigDecimal amount) {
         balance = balance.add(amount);
     }
 
-    public void withdraw(BigDecimal amount) throws InsufficientFundsException{
+    public void withdraw(BigDecimal amount) throws InsufficientFundsException {
         // check if amount is greater than the current balance
-        if(amount.compareTo(balance) > 0){
+        if (amount.compareTo(balance) > 0) {
             throw new InsufficientFundsException("Cannot withdraw " + amount + " from current balance of " + balance);
         }
         // if funds are enough >> amount <= balance
