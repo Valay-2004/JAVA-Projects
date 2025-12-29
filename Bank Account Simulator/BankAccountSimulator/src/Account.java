@@ -1,4 +1,7 @@
+import exceptions.InsufficientFundsException;
+
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class Account {
     private BigDecimal balance;
@@ -26,7 +29,8 @@ public class Account {
     }
 
     public BigDecimal getBalance() {
-        return balance;
+        return balance.setScale(2, RoundingMode.HALF_UP);
+
     }
 
     public String getAccountNumber() {
@@ -39,5 +43,19 @@ public class Account {
 
     public void setAccountType(AccountType accountType){
         this.accountType = accountType;
+    }
+
+    public void deposit(BigDecimal amount){
+        balance = balance.add(amount);
+    }
+
+    public void withdraw(BigDecimal amount) throws InsufficientFundsException{
+        // check if amount is greater than the current balance
+        if(amount.compareTo(balance) > 0){
+            throw new InsufficientFundsException("Cannot withdraw " + amount + " from current balance of " + balance);
+        }
+        // if funds are enough >> amount <= balance
+        balance = balance.subtract(amount);
+        System.out.println("Successfully withdrew: " + amount);
     }
 }
