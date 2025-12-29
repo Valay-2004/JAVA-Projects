@@ -1,15 +1,16 @@
+import java.time.LocalDateTime;
 import java.math.BigDecimal;
 
 public class Transaction {
     BigDecimal transactionAmount;
     String transactionType;
-    String transactionTimeStamp;
     String fromAccount;
     String toAccount;
+    private final LocalDateTime transactionTimeStamp;
 
-    public Transaction(String transactionType, String transactionTimeStamp, String fromAccount, String toAccount, BigDecimal transactionAmount) {
+    public Transaction(String transactionType, String fromAccount, String toAccount, BigDecimal transactionAmount) {
         this.transactionType = transactionType;
-        this.transactionTimeStamp = transactionTimeStamp;
+        this.transactionTimeStamp = LocalDateTime.now();
         this.fromAccount = fromAccount;
         this.toAccount = toAccount;
         this.transactionAmount = transactionAmount;
@@ -31,13 +32,13 @@ public class Transaction {
         this.transactionType = transactionType;
     }
 
-    public String getTransactionTimeStamp() {
+    public LocalDateTime getTransactionTimeStamp() {
         return transactionTimeStamp;
     }
 
-    public void setTransactionTimeStamp(String transactionTimeStamp) {
-        this.transactionTimeStamp = transactionTimeStamp;
-    }
+//    public void setTransactionTimeStamp(LocalDateTime transactionTimeStamp) {
+//        this.transactionTimeStamp = transactionTimeStamp;
+//    }
 
     public String getFromAccount() {
         return fromAccount;
