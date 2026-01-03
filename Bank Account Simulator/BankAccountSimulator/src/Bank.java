@@ -5,7 +5,7 @@ public class Bank {
 
     private Map<String, Account> accounts;
 
-    public Bank(){
+    public Bank() {
         this.accounts = new HashMap<>();
     }
 
