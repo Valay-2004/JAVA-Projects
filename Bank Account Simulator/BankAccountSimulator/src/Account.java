@@ -2,13 +2,19 @@ import exceptions.InsufficientFundsException;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Account {
     private BigDecimal balance;
     private String accHolderName;
     private String accountNumber;
     private AccountType accountType;
+    // Store transaction
+    private final List<Transaction> transactionList;
+    private static final int MAX_TRANSACTIONS = 10;
 
+    // Account types
     public enum AccountType {
         SAVINGS,
         CHECKING,
@@ -21,6 +27,7 @@ public class Account {
         this.accountNumber = accountNumber;
         this.accHolderName = accHolderName;
         this.accountType = accountType;
+        this.transactionList = new ArrayList<>();
     }
 
     // Getters and Setters
@@ -57,5 +64,9 @@ public class Account {
         // if funds are enough >> amount <= balance
         balance = balance.subtract(amount);
         System.out.println("Successfully withdrew: " + amount);
+    }
+
+    public void logTransaction(Transaction transaction){
+        this.transactionList.add(transaction);
     }
 }
