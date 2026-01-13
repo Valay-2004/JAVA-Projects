@@ -39,7 +39,9 @@ public class Bank {
         Account toAccount = getAccount(toAccountNumber);        // destination
         // withdraw
         fromAccount.withdraw(amount);
+        fromAccount.logTransaction(new Transaction("TRANSFER_OUT", fromAccount.getAccountNumber(), toAccount.getAccountNumber(), amount));
         // deposit
         toAccount.deposit(amount);
+        toAccount.logTransaction(new Transaction("TRANSFER_IN", toAccount.getAccountNumber(), fromAccount.getAccountNumber(), amount));
     }
 }
