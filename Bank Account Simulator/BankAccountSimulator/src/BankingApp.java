@@ -22,8 +22,10 @@ public class BankingApp {
             System.out.println("1. Create Account   2. Deposit Money");
             System.out.println("3. Withdraw Money   4. Transfer Money");
             System.out.println("5. View Balance     6. View Transactions");
+            System.out.println("---------------------------------------------");
 
             // Check if the input is an integer
+            System.out.print("Enter you choice: ");
             int choice = -1;
             if(scanner.hasNextInt()){
                 choice = scanner.nextInt();
@@ -38,7 +40,7 @@ public class BankingApp {
                     case 6 -> transaction();
                     case 0 -> {
                         isRunning = false;
-                        System.out.println("GoodBye. Thanks for doing business with us!\n\t Have a Wonderful day.");
+                        System.out.println("Good Bye. Thanks for doing business with us!\n\t\t Have a Wonderful day.");
                     }
                     default -> System.out.println("Invalid Option!");
                 }
