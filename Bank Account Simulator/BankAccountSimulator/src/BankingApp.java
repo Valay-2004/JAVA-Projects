@@ -59,6 +59,33 @@ public class BankingApp {
 
     public void addAccount(){
         // coming soon
+
+        System.out.print("Please enter your name: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter your initial balance: $");
+        BigDecimal initialBalance = scanner.nextBigDecimal();
+        System.out.println("Enter account type: ");
+
+        System.out.println("Select account type: ");
+        System.out.println("1. SAVINGS              2. CHECKING");
+        System.out.println("3. BUSINESS_CHECKING    4. FIXED_DEPOSIT");
+
+        int type = scanner.nextInt();
+        scanner.nextLine();     // consume newline
+        Account.AccountType accountType;
+        switch (type){
+            case 1 -> accountType = Account.AccountType.SAVINGS;
+            case 2 -> accountType = Account.AccountType.CHECKING;
+            case 3 -> accountType = Account.AccountType.BUSINESS_CHECKING;
+            case 4 -> accountType = Account.AccountType.FIXED_DEPOSIT;
+            default -> {
+                System.out.println("Invalid choice, defaulting to SAVINGS");
+                accountType = Account.AccountType.SAVINGS;
+            }
+        }
+
+        bank.addAccount(name, accountType, initialBalance);
+
     }
     public void deposit(){
         //coming soon
