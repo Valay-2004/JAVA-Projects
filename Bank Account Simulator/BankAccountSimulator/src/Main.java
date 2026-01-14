@@ -1,6 +1,7 @@
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Bank Account Simulator Mini Project");
+        BankingApp bankingApp = new BankingApp();
+        bankingApp.start();
     }
 }
