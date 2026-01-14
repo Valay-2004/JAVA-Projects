@@ -88,10 +88,41 @@ public class BankingApp {
 
     }
     public void deposit(){
-        //coming soon
+        System.out.print("Enter account number: ");
+        String accountNumber = scanner.nextLine();
+        System.out.print("Enter deposit amount: $");
+        BigDecimal depositAmount = scanner.nextBigDecimal();
+        scanner.nextLine();
+
+        try{
+            Account account = bank.getAccount(accountNumber);       // get account through Bank
+            account.deposit(depositAmount);    // Call deposit on the account
+            // log the transaction
+            account.logTransaction(new Transaction("DEPOSIT", accountNumber, "BANK", depositAmount));
+
+            System.out.println("Amount Deposited Successfully!");
+        } catch (Exception e) {
+            System.out.println("An Error occurred: " + e.getMessage());
+        }
     }
+
     public void withdraw(){
-        // coming soon
+        System.out.println("Enter Account Number: ");
+        String accountNumber = scanner.nextLine();
+        System.out.println("Enter amount to withdraw: $");
+        BigDecimal withdrawAmount = scanner.nextBigDecimal();
+        scanner.nextLine();
+
+        try {
+            Account account = bank.getAccount(accountNumber);
+            account.withdraw(withdrawAmount);
+            // log the transaction
+            account.logTransaction(new Transaction("WITHDRAW", accountNumber, "BANK", withdrawAmount));
+
+            System.out.println("Amount withdrawn successfully!");
+        } catch (Exception e) {
+            System.out.println("An Error occurred: " + e.getMessage());
+        }
     }
     public void transfer(){
         //coming soon
