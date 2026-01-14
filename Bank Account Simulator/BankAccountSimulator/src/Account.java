@@ -3,6 +3,7 @@ import exceptions.InsufficientFundsException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Account {
@@ -22,7 +23,7 @@ public class Account {
         FIXED_DEPOSIT
     }
 
-    public Account(BigDecimal balance, String accountNumber, String accHolderName, AccountType accountType) {
+    public Account(String accountNumber, String accHolderName, BigDecimal balance, AccountType accountType) {
         this.balance = balance;
         this.accountNumber = accountNumber;
         this.accHolderName = accHolderName;
@@ -66,7 +67,11 @@ public class Account {
         System.out.println("Successfully withdrew: " + amount);
     }
 
+    public List<Transaction> getTransactions(){
+        return Collections.unmodifiableList(transactionList);
+    }
     public void logTransaction(Transaction transaction){
         this.transactionList.add(transaction);
+        TransactionLogger.log(transaction);
     }
 }
