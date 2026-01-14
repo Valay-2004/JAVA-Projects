@@ -2,10 +2,10 @@ import java.time.LocalDateTime;
 import java.math.BigDecimal;
 
 public class Transaction {
-    BigDecimal transactionAmount;
-    String transactionType;
-    String fromAccount;
-    String toAccount;
+    private BigDecimal transactionAmount;
+    private String transactionType;
+    private String fromAccount;
+    private String toAccount;
     private final LocalDateTime transactionTimeStamp;
 
     public Transaction(String transactionType, String fromAccount, String toAccount, BigDecimal transactionAmount) {
@@ -14,6 +14,11 @@ public class Transaction {
         this.fromAccount = fromAccount;
         this.toAccount = toAccount;
         this.transactionAmount = transactionAmount;
+    }
+
+    public String toLogString(){
+        return transactionTimeStamp + " | " + transactionType + " | "
+                + fromAccount + " -> " + toAccount + " | " + transactionAmount;
     }
 
     public BigDecimal getTransactionAmount() {
