@@ -13,10 +13,11 @@ public class Bank {
         this.accounts = new HashMap<>();
     }
 
-    public void addAccount(String holderName, Account.AccountType accountType, BigDecimal initialBalance) {
+    public String addAccount(String holderName, Account.AccountType accountType, BigDecimal initialBalance) {
         String accountNumber = "ACC" + nextAccountNumber++; // generates ACC100000
-        Account account = new Account(initialBalance, accountNumber, holderName, accountType);
+        Account account = new Account(accountNumber, holderName, initialBalance, accountType);
         accounts.put(accountNumber, account);
+        return accountNumber;
     }
 
     public Account getAccount(String accountNumber) throws AccountNotFoundException {
@@ -26,7 +27,7 @@ public class Bank {
         return accounts.get(accountNumber);
     }
 
-    public void transfer(String fromAccountNumber, String toAccountNumber, BigDecimal amount) throws AccountNotFoundException, InsufficientFundsException {
+    public void transfer(String fromAccountNumber, String toAccountNumber, BigDecimal amount) throws AccountNotFoundException, InsufficientFundsException, InvalidTransferException {
         // 1. Get both account with null checks that throw exception
         if (fromAccountNumber == null || toAccountNumber == null || amount == null) {
             throw new InvalidTransferException("Source, Destination, or Amount cannot be null!");
@@ -46,4 +47,5 @@ public class Bank {
         toAccount.deposit(amount);
         toAccount.logTransaction(new Transaction("TRANSFER_IN", toAccount.getAccountNumber(), fromAccount.getAccountNumber(), amount));
     }
+
 }
