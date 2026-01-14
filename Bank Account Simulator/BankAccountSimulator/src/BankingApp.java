@@ -1,3 +1,5 @@
+import exceptions.AccountNotFoundException;
+
 import java.math.BigDecimal;
 import java.util.Scanner;
 
@@ -36,8 +38,8 @@ public class BankingApp {
                     case 2 -> deposit();
                     case 3 -> withdraw();
                     case 4 -> transfer();
-                    case 5 -> balance();
-                    case 6 -> transaction();
+                    case 5 -> viewBalance();
+                    case 6 -> viewTransaction();
                     case 0 -> {
                         isRunning = false;
                         System.out.println("Good Bye. Thanks for doing business with us!\n\t\t Have a Wonderful day.");
@@ -47,6 +49,7 @@ public class BankingApp {
 
             }
         }
+        scanner.close();
     }
 
     public Bank getBank() {
@@ -64,7 +67,6 @@ public class BankingApp {
         String name = scanner.nextLine();
         System.out.print("Enter your initial balance: $");
         BigDecimal initialBalance = scanner.nextBigDecimal();
-        System.out.println("Enter account type: ");
 
         System.out.println("Select account type: ");
         System.out.println("1. SAVINGS              2. CHECKING");
@@ -84,14 +86,18 @@ public class BankingApp {
             }
         }
 
-        bank.addAccount(name, accountType, initialBalance);
+        String accountNumber = bank.addAccount(name, accountType, initialBalance);;
+        System.out.println("Your account number is: " + accountNumber);
 
     }
     public void deposit(){
         System.out.print("Enter account number: ");
         String accountNumber = scanner.nextLine();
         System.out.print("Enter deposit amount: $");
-        BigDecimal depositAmount = scanner.nextBigDecimal();
+        BigDecimal depositAmount = null;
+        if(scanner.hasNextBigDecimal()) {
+            depositAmount = scanner.nextBigDecimal();
+        }
         scanner.nextLine();
 
         try{
@@ -101,6 +107,7 @@ public class BankingApp {
             account.logTransaction(new Transaction("DEPOSIT", accountNumber, "BANK", depositAmount));
 
             System.out.println("Amount Deposited Successfully!");
+            System.out.println("Current Balance is: $" + account.getBalance());
         } catch (Exception e) {
             System.out.println("An Error occurred: " + e.getMessage());
         }
@@ -125,12 +132,44 @@ public class BankingApp {
         }
     }
     public void transfer(){
-        //coming soon
+        System.out.print("Enter your account number: ");
+        String fromAccountNumber = scanner.nextLine();
+        System.out.print("Enter receivers account number: ");
+        String toAccountNumber = scanner.nextLine();
+
+        System.out.print("Enter amount to transfer: $");
+        BigDecimal transferAmount = scanner.nextBigDecimal();
+
+        bank.transfer(fromAccountNumber, toAccountNumber, transferAmount);
+        System.out.printf("Your transaction from %s to %s of amount $%.2f%n", fromAccountNumber, toAccountNumber, transferAmount);
     }
-    public void balance(){
-        // coming soon
+    public void viewBalance(){
+        try{
+            System.out.print("Enter your account number: ");
+            String accountNumber = scanner.nextLine();
+            Account account = bank.getAccount(accountNumber);
+            System.out.println("Your current balance is: $" + account.getBalance());
+        } catch (Exception e) {
+            System.out.println("An Error occurred: " + e.getMessage());
+        }
     }
-    public void transaction(){
-        //coming soon
+    public void viewTransaction(){
+        try {
+            System.out.println("Enter your Account Number: ");
+            String accountNumber = scanner.nextLine();
+            Account account = bank.getAccount(accountNumber);
+            System.out.println("\n\t\tTransaction History");
+            System.out.println("--------------------------------------");
+            if(account.getTransactions().isEmpty()){
+                System.out.println("No transactions found.");
+            } else {
+                for(Transaction txn : account.getTransactions()){
+                    System.out.println(txn.toLogString());
+                }
+            }
+        } catch (AccountNotFoundException e){
+            System.out.println("Account Not Found! " + e.getMessage());
+        }
     }
+
 }
