@@ -1,30 +1,42 @@
 import exceptions.*;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.Map;
 
 public class Bank {
 
-    private Map<String, Account> accounts;
-    private long nextAccountNumber = 100000; // starting number
+    private final Map<String, Account> accounts;
 
     public Bank() {
-        this.accounts = new HashMap<>();
+        this.accounts = AccountRepository.loadAll();
+    }
+
+    public static String generateNextAccountNumber() {
+        Map<String, Account> all = AccountRepository.loadAll();
+        long max = 100000; // Initial point
+        for (String accNo : all.keySet()) {
+            if (accNo.startsWith("ACC")) {
+                long num = Long.parseLong(accNo.substring(3));
+                max = Math.max(max, num);
+            }
+        }
+        return "ACC" + (max + 1);
     }
 
     public String addAccount(String holderName, Account.AccountType accountType, BigDecimal initialBalance) {
-        String accountNumber = "ACC" + nextAccountNumber++; // generates ACC100000
+        String accountNumber = generateNextAccountNumber(); // generates ACC100000
         Account account = new Account(accountNumber, holderName, initialBalance, accountType);
         accounts.put(accountNumber, account);
+        AccountRepository.save(account);
         return accountNumber;
     }
 
     public Account getAccount(String accountNumber) throws AccountNotFoundException {
-        if (!accounts.containsKey(accountNumber)) {
-            throw new AccountNotFoundException("Account Number " + accountNumber + " was not found in our bank's records!");
+        Account account = accounts.get(accountNumber);
+        if (account == null) {
+            throw new AccountNotFoundException("Account Not Found In Our Bank Records!");
         }
-        return accounts.get(accountNumber);
+        return account;
     }
 
     public void transfer(String fromAccountNumber, String toAccountNumber, BigDecimal amount) throws AccountNotFoundException, InsufficientFundsException, InvalidTransferException {
