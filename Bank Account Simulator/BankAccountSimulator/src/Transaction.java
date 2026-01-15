@@ -1,11 +1,13 @@
 import java.time.LocalDateTime;
 import java.math.BigDecimal;
+import java.time.format.DateTimeFormatter;
 
 public class Transaction {
-    private BigDecimal transactionAmount;
-    private String transactionType;
-    private String fromAccount;
-    private String toAccount;
+    private final BigDecimal transactionAmount;
+    private final String transactionType;
+    private final String fromAccount;
+    private final String toAccount;
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
     private final LocalDateTime transactionTimeStamp;
 
     public Transaction(String transactionType, String fromAccount, String toAccount, BigDecimal transactionAmount) {
@@ -17,47 +19,11 @@ public class Transaction {
     }
 
     public String toLogString(){
-        return transactionTimeStamp + " | " + transactionType + " | "
+        return getFormatterTimestamp() + " | " + transactionType + " | "
                 + fromAccount + " -> " + toAccount + " | " + transactionAmount;
     }
-
-    public BigDecimal getTransactionAmount() {
-        return transactionAmount;
+    public String getFormatterTimestamp(){
+        return transactionTimeStamp.format(formatter);
     }
 
-    public void setTransactionAmount(BigDecimal transactionAmount) {
-        this.transactionAmount = transactionAmount;
-    }
-
-    public String getTransactionType() {
-        return transactionType;
-    }
-
-    public void setTransactionType(String transactionType) {
-        this.transactionType = transactionType;
-    }
-
-    public LocalDateTime getTransactionTimeStamp() {
-        return transactionTimeStamp;
-    }
-
-//    public void setTransactionTimeStamp(LocalDateTime transactionTimeStamp) {
-//        this.transactionTimeStamp = transactionTimeStamp;
-//    }
-
-    public String getFromAccount() {
-        return fromAccount;
-    }
-
-    public void setFromAccount(String fromAccount) {
-        this.fromAccount = fromAccount;
-    }
-
-    public String getToAccount() {
-        return toAccount;
-    }
-
-    public void setToAccount(String toAccount) {
-        this.toAccount = toAccount;
-    }
 }
