@@ -6,16 +6,17 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
-public class FileStateTracker {
+public class BackupManager {
     //Path for the file
     private final Path manifestPath;
 
     // Constructor
-    public FileStateTracker(String manifestFilePath) {
+    public BackupManager(String manifestFilePath) {
         this.manifestPath = Paths.get(manifestFilePath);
         initializeFile();
     }
 
+    // ====== MANIFEST I/O ====== //
     private void initializeFile() {
         // check for the file
         try {
@@ -89,5 +90,14 @@ public class FileStateTracker {
 
     }
 
+    // ====== FILE COPYING ====== //
 
+
+
+    // ====== MAIN BACKUP LOGIC ===== //
+    public void performBackup(Path sourceDir, Path backupDir){
+        // 1. Scan all files in sourceDir
+        // 2. For each file:
+        //      if hasFileChanged(file) => copy it + updateManifest
+    }
 }
