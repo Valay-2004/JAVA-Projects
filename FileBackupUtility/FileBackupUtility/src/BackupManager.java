@@ -91,8 +91,12 @@ public class BackupManager {
     }
 
     // ====== FILE COPYING ====== //
-
-
+    private void copyFileToBackup(Path sourceFile, Path sourceRoot, Path backupRoot) throws IOException{
+        Path relativePath = sourceRoot.relativize(sourceFile);
+        Path targetPath = backupRoot.resolve(relativePath);
+        Files.createDirectories(targetPath.getParent());
+        Files.copy(sourceFile, targetPath, StandardCopyOption.REPLACE_EXISTING);
+    }
 
     // ====== MAIN BACKUP LOGIC ===== //
     public void performBackup(Path sourceDir, Path backupDir){
