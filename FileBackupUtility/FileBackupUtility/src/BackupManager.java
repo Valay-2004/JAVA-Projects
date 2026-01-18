@@ -63,7 +63,7 @@ public class BackupManager {
         return true;
     }
 
-    public void updateManifest(Path sourceFile) throws IOException {
+    private void updateManifest(Path sourceFile) throws IOException {
         Path tempFilePath = Files.createTempFile(manifestPath.getParent(), "manifest", ".tmp");
         long currentTime = Files.getLastModifiedTime(sourceFile).toMillis();
         try (BufferedReader reader = Files.newBufferedReader(manifestPath);
@@ -92,16 +92,43 @@ public class BackupManager {
 
     // ====== FILE COPYING ====== //
     private void copyFileToBackup(Path sourceFile, Path sourceRoot, Path backupRoot) throws IOException{
+        if(!Files.isRegularFile(sourceFile)) return;    //skip directories, symlinks, etc
         Path relativePath = sourceRoot.relativize(sourceFile);
         Path targetPath = backupRoot.resolve(relativePath);
         Files.createDirectories(targetPath.getParent());
-        Files.copy(sourceFile, targetPath, StandardCopyOption.REPLACE_EXISTING);
+        try {
+            Files.copy(sourceFile, targetPath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e){
+            System.err.println("Failed to back up: " + sourceFile + " -> " + e.getMessage());
+        }
     }
 
     // ====== MAIN BACKUP LOGIC ===== //
     public void performBackup(Path sourceDir, Path backupDir){
-        // 1. Scan all files in sourceDir
-        // 2. For each file:
-        //      if hasFileChanged(file) => copy it + updateManifest
+        try{
+            // to ensure that the directory exists
+            Files.createDirectories(backupDir);
+
+            //Walk all files in sourceDir
+            // 1. Scan all files in sourceDir
+            // 2. For each file:
+            //      if hasFileChanged(file) => copy it + updateManifest
+            Files.walk(sourceDir)
+                    .filter(Files::isRegularFile)
+                    .forEach(file -> {
+                        try{
+                            if(hasFileChanged(file)){
+                                System.out.println("Backing up: " + file);
+                                copyFileToBackup(file, sourceDir, backupDir);
+                                updateManifest(file);
+                            }
+                        } catch (IOException e){
+                            System.err.println("Error processing " + file + ": " + e.getMessage());
+                        }
+                    });
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
