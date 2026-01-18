@@ -2,3 +2,6 @@ This is a sample file we will be using to test the backup manager
 
 Now this is the update I am doing here
 Let's run our main method after writing here something and check what happens
+
+Yup the project is working now let's refactor it and add other techs
+like zip compression and SHA check.
