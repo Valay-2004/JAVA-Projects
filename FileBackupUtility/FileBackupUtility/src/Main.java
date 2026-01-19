@@ -1,12 +1,15 @@
-import java.nio.file.Path;
+import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Project Name -- File Backup Utility");
-        BackupManager backupManager = new BackupManager("data/manifestFile.txt");
-        backupManager.performBackup(
-                Path.of("test-source"),
-                Path.of("test-backup")
-        );
+        System.out.println("\t\tProject Name -- File Backup Utility");
+        try {
+            BackupConfig config = new BackupConfig("backup.properties");
+            BackupManager backupManager = new BackupManager("data/manifest.txt");
+            backupManager.performBackup(config.sourceDir, config.backupDir);
+        } catch (IOException e) {
+            System.err.println("Config error: " + e.getMessage());
+            System.exit(1);
+        }
     }
 }
