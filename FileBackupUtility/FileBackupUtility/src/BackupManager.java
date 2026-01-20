@@ -7,6 +7,7 @@ public class BackupManager {
 
     private final ManifestManager manifestManager;
     private final FileCopier fileCopier;
+
     // Constructor
     public BackupManager(String manifestFilePath) {
         this.manifestManager = new ManifestManager(manifestFilePath);
@@ -14,9 +15,9 @@ public class BackupManager {
     }
 
     // ====== MAIN BACKUP LOGIC ===== //
-    public void performBackup(Path sourceDir, Path backupDir){
+    public void performBackup(Path sourceDir, Path backupDir) {
         System.out.println("Scanning for changes in: " + sourceDir);
-        try{
+        try {
             // to ensure that the directory exists
             Files.createDirectories(backupDir);
             AtomicLong changeCount = new AtomicLong();
@@ -28,8 +29,8 @@ public class BackupManager {
             Files.walk(sourceDir)
                     .filter(Files::isRegularFile)
                     .forEach(file -> {
-                        try{
-                            if(manifestManager.hasFileChanged(file)){
+                        try {
+                            if (manifestManager.hasFileChanged(file)) {
                                 Path relPath = sourceDir.relativize(file);
                                 System.out.println("Backing up: " + relPath);
 
@@ -37,12 +38,12 @@ public class BackupManager {
                                 manifestManager.updateManifest(file);
                                 changeCount.getAndIncrement();
                             }
-                        } catch (IOException e){
+                        } catch (IOException e) {
                             System.err.println("Error processing " + file + ": " + e.getMessage());
                         }
                     });
 
-            if(changeCount.get() == 0) System.out.println("No changes detected. Backup Skipped.");
+            if (changeCount.get() == 0) System.out.println("No changes detected. Backup Skipped.");
             else System.out.println("Backup completed! " + changeCount.get() + " file(s) updated");
 
         } catch (IOException e) {

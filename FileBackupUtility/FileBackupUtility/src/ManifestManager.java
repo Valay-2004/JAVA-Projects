@@ -64,8 +64,7 @@ public class ManifestManager {
     public void updateManifest(Path sourceFile) throws IOException {
         Path tempFilePath = Files.createTempFile(manifestPath.getParent(), "manifest", ".tmp");
         long currentTime = Files.getLastModifiedTime(sourceFile).toMillis();
-        try (BufferedReader reader = Files.newBufferedReader(manifestPath);
-             BufferedWriter writer = Files.newBufferedWriter(tempFilePath)) {
+        try (BufferedReader reader = Files.newBufferedReader(manifestPath); BufferedWriter writer = Files.newBufferedWriter(tempFilePath)) {
             String line;
 
             while ((line = reader.readLine()) != null) {
