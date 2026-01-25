@@ -8,7 +8,7 @@ public class BackupConfig {
     public final Path sourceDir;
     public final Path backupDir;
 
-    public BackupConfig(String configFile) throws IOException{
+    public BackupConfig(String configFile) throws IOException {
         Properties props = new Properties();
         props.load(Files.newInputStream(Paths.get(configFile)));
 
