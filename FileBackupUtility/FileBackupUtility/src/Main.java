@@ -6,9 +6,9 @@ public class Main {
         try {
             BackupConfig config = new BackupConfig("backup.properties");
             BackupManager backupManager = new BackupManager("data/manifest.txt");
-            backupManager.performBackup(config.sourceDir, config.backupDir);
+            backupManager.performBackup(config.sourceDir, config.backupDir, config.backupMode);
         } catch (IOException e) {
-            System.err.println("Config error: " + e.getMessage());
+            System.err.println("⚠ Config error: " + e.getMessage());
             System.exit(1);
         }
     }
