@@ -5,3 +5,6 @@ Let's run our main method after writing here something and check what happens
 
 Yup the project is working now let's refactor it and add other techs
 like zip compression and SHA check.
+
+The SHA check will be added later now we will be adding the zip compression
+and thus we can use either of them zip or folder backup based on what the user wants.
