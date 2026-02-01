@@ -6,12 +6,10 @@ import java.util.concurrent.atomic.AtomicLong;
 public class BackupManager {
 
     private final ManifestManager manifestManager;
-    private final FileCopier fileCopier;
 
     // Constructor
     public BackupManager(String manifestFilePath) {
         this.manifestManager = new ManifestManager(manifestFilePath);
-        this.fileCopier = new FileCopier();
     }
 
     // ====== MAIN BACKUP LOGIC ===== //
@@ -19,7 +17,8 @@ public class BackupManager {
         try{
             if("zip".equals(mode)){
                 System.out.println("📁 Using ZIP backup mode");
-                // ZipBackupWriter will be added later here
+                ZipBackupWriter writer = new ZipBackupWriter();
+                writer.backup(sourceDir, backupDir, manifestManager);
             } else {
                 System.out.println("📂 Using folder backup mode");
                 FolderBackupWriter writer = new FolderBackupWriter();

@@ -7,7 +7,6 @@ import java.util.Properties;
 public class BackupConfig {
     public final Path sourceDir;
     public final Path backupDir;
-    public final String backupMode; // which type of mode the user wants
 
     public BackupConfig(String configFile) throws IOException {
         Properties props = new Properties();
@@ -15,7 +14,6 @@ public class BackupConfig {
 
         this.sourceDir = Paths.get(props.getProperty("source.dir", "source"));
         this.backupDir = Paths.get(props.getProperty("backup.dir", "backups"));
-        this.backupMode = props.getProperty("backup.mode", "folder"); // default to folder
     }
 }
 
