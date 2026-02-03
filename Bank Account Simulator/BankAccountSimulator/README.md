@@ -1,6 +1,6 @@
 # Bank Account Simulator
 
-A console-based banking application that simulates common banking operations.
+**A console-based banking application that simulates common banking operations.**
 
 ## Key Features
 - Create and manage bank accounts
