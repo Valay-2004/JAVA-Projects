@@ -17,5 +17,29 @@ public class Product {
         this.categoryId = categoryId;
     }
 
+    // Getters
 
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public String getSupplierId() {
+        return supplierId;
+    }
+
+    public String getCategoryId() {
+        return categoryId;
+    }
 }
