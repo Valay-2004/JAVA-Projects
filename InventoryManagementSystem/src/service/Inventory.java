@@ -26,4 +26,15 @@ public class Inventory {
         supplierMap.put(supplier.getId(), supplier);
     }
 
+    // Method for adding Product
+    public void addProduct(Product product) throws InvalidProductException{
+        // TODO: Validate product != null
+        // TODO: Validate product ID is not already used
+        // TODO: Validate category exists
+        // TODO: Validate supplier exists
+        // TODO: Validate price > 0 and stock >= 0
+
+        productsMap.put(product.getId(), product);
+    }
+
 }
