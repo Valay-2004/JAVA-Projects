@@ -1,6 +1,8 @@
+package model;
+
 public class Category {
-    public String id;
-    public String name;
+    private String id;
+    private String name;
 
     public Category(String id, String name){
         this.id = id;
