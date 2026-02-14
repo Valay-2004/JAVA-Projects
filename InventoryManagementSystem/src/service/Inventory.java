@@ -40,15 +40,15 @@ public class Inventory {
         }
         // TODO: Validate category exists
         if(!categories.containsKey(product.getCategoryId())){
-            throw new InvalidProductException("Category ID '" + product.getCategoryId() + "' does not exists!");
+            throw new InvalidProductException("Category ID '" + product.getCategoryId() + "' does not exist!");
         }
         // TODO: Validate supplier exists
         if(!suppliers.containsKey(product.getSupplierId())){
-            throw new InvalidProductException("Supplier ID '" + product.getSupplierId() + "' does not exists!");
+            throw new InvalidProductException("Supplier ID '" + product.getSupplierId() + "' does not exist!");
         }
         // TODO: Validate price > 0 and stock >= 0
-        if(product.getPrice().compareTo(BigDecimal.ZERO) > 0){
-            throw new InvalidProductException("Product Price cannot be 0 or less than 0");
+        if(product.getPrice().compareTo(BigDecimal.ZERO) <= 0){
+            throw new InvalidProductException("Product price must be greater than zero!");
         }
         if(product.getStock() < 0) throw new InvalidProductException("Stock cannot be less than 0");
 
