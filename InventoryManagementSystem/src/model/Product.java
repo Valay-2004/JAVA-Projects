@@ -44,4 +44,18 @@ public class Product {
     public String getCategoryId() {
         return categoryId;
     }
+
+    // setters
+    // reducing stocks
+    public void reduceStock(int amount){
+        if(amount <= 0) throw new IllegalArgumentException("Amount must be positive");
+        if(this.stock < amount) throw new IllegalStateException("Insufficient stock");
+        this.stock -= amount;
+    }
+    // adding stocks
+    public void addStock(int amount){
+        if(amount <= 0) throw new IllegalArgumentException("Amount must be positive");
+        this.stock += amount;
+    }
+
 }
