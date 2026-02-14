@@ -56,4 +56,19 @@ public class Inventory {
         products.put(product.getId(), product);
     }
 
+    // Get all Products
+    public List<Product> getAllProducts(){
+        return new ArrayList<>(products.values());
+    }
+
+    // Find Product By ID (safe lookup):
+    public Product getProductById(String id) throws ProductNotFoundException{
+        if(id == null) throw new ProductNotFoundException("ID cannot be null!");
+        // create p object to get product by id
+        Product p = products.get(id);
+        if(p == null) throw new ProductNotFoundException("Product with ID '" + id + "' not found");
+        // return if not null
+        return p;
+    }
+
 }
