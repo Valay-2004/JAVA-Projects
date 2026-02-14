@@ -9,23 +9,23 @@ import java.util.*;
 public class Inventory {
 
     // Storage Collection (model fields)
-    private Map<String, Product> productsMap;
-    private Map<String, Category> categoryMap;
-    private Map<String, Supplier> supplierMap;
+    private Map<String, Product> products;
+    private Map<String, Category> categories;
+    private Map<String, Supplier> suppliers;
 
     // Constructor with new instance of HashMaps
     public Inventory(){
-        this.productsMap = new HashMap<>();
-        this.categoryMap = new HashMap<>();
-        this.supplierMap = new HashMap<>();
+        this.products = new HashMap<>();
+        this.categories = new HashMap<>();
+        this.suppliers = new HashMap<>();
     }
 
     // methods to register categories & suppliers first
     public void addCategory(Category category){
-        categoryMap.put(category.getId(), category);
+        categories.put(category.getId(), category);
     }
     public void addSupplier(Supplier supplier){
-        supplierMap.put(supplier.getId(), supplier);
+        suppliers.put(supplier.getId(), supplier);
     }
 
     // Method for adding Product
@@ -35,15 +35,15 @@ public class Inventory {
             throw new InvalidProductException("Product cannot be null!");
         }
         // TODO: Validate product ID is not already used
-        if(productsMap.containsKey(product.getId())){
+        if(products.containsKey(product.getId())){
             throw new InvalidProductException("Product ID '" + product.getId() + "' is already in use!");
         }
         // TODO: Validate category exists
-        if(!categoryMap.containsKey(product.getCategoryId())){
+        if(!categories.containsKey(product.getCategoryId())){
             throw new InvalidProductException("Category ID '" + product.getCategoryId() + "' does not exists!");
         }
         // TODO: Validate supplier exists
-        if(!supplierMap.containsKey(product.getSupplierId())){
+        if(!suppliers.containsKey(product.getSupplierId())){
             throw new InvalidProductException("Supplier ID '" + product.getSupplierId() + "' does not exists!");
         }
         // TODO: Validate price > 0 and stock >= 0
@@ -53,7 +53,7 @@ public class Inventory {
         if(product.getStock() < 0) throw new InvalidProductException("Stock cannot be less than 0");
 
         // All checks passed
-        productsMap.put(product.getId(), product);
+        products.put(product.getId(), product);
     }
 
 }
