@@ -71,4 +71,25 @@ public class Inventory {
         return p;
     }
 
+    // Updating of the stocks
+    // get behaviors from Product call it here with new methods
+    // add stock
+// Inventory.java
+    public void addStock(String productId, int quantity) throws InvalidProductException {
+        Product p = getProductById(productId);
+        try {
+            p.addStock(quantity);
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            throw new InvalidProductException(e.getMessage());
+        }
+    }
+
+    public void reduceStock(String productId, int quantity) throws InvalidProductException {
+        Product p = getProductById(productId);
+        try {
+            p.reduceStock(quantity);
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            throw new InvalidProductException(e.getMessage());
+        }
+    }
 }
