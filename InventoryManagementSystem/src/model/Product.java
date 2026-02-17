@@ -1,5 +1,7 @@
 package model;
 
+import service.InvalidProductException;
+
 import java.math.BigDecimal;
 
 public class Product {
@@ -47,15 +49,15 @@ public class Product {
 
     // setters
     // reducing stocks
-    public void reduceStock(int amount){
-        if(amount <= 0) throw new IllegalArgumentException("Amount must be positive");
-        if(this.stock < amount) throw new IllegalStateException("Insufficient stock");
-        this.stock -= amount;
+    public void reduceStock(int quantity) {
+        if (quantity <= 0) throw new IllegalArgumentException("Quantity must be positive");
+        if (this.stock < quantity) throw new IllegalStateException("Insufficient stock");
+        this.stock -= quantity;
     }
-    // adding stocks
-    public void addStock(int amount){
-        if(amount <= 0) throw new IllegalArgumentException("Amount must be positive");
-        this.stock += amount;
+    public void addStock(int quantity) {
+        if (quantity <= 0) throw new IllegalArgumentException("Quantity must be positive");
+        if (this.stock > Integer.MAX_VALUE - quantity) throw new IllegalStateException("Stock overflow");
+        this.stock += quantity;
     }
 
 }
