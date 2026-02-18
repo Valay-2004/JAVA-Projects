@@ -5,6 +5,7 @@ import model.*;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Inventory {
 
@@ -59,6 +60,14 @@ public class Inventory {
     // Get all Products
     public List<Product> getAllProducts(){
         return new ArrayList<>(products.values());
+    }
+
+    // Get Product by Category
+    public List<Product> getProductByCategory(String categoryId) throws InvalidProductException{
+        if(!categories.containsKey(categoryId)) throw new InvalidProductException("Category not found!");
+        return products.values().stream()
+                .filter(p -> p.getCategoryId().equals(categoryId))
+                .collect(Collectors.toList());
     }
 
     // Find Product By ID (safe lookup):
