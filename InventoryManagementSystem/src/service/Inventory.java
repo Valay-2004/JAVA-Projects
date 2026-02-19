@@ -6,13 +6,14 @@ import model.*;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.io.Serializable;
 
-public class Inventory {
-
+public class Inventory implements Serializable{ // implement serializable
+    private static final long serialVersionUID = 1L; // good practice --> Okay :)
     // Storage Collection (model fields)
-    private Map<String, Product> products;
-    private Map<String, Category> categories;
-    private Map<String, Supplier> suppliers;
+    private final Map<String, Product> products;
+    private final Map<String, Category> categories;
+    private final Map<String, Supplier> suppliers;
 
     // Constructor with new instance of HashMaps
     public Inventory(){
