@@ -2,9 +2,11 @@ package model;
 
 import service.InvalidProductException;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class Product {
+public class Product implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String id;
     private String name;
     private BigDecimal price;
