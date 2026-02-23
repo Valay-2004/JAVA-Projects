@@ -102,4 +102,12 @@ public class Inventory implements Serializable{ // implement serializable
             throw new InvalidProductException(e.getMessage());
         }
     }
+
+    public Map<Object, Object> getCategories() {
+        return new HashMap<>(categories); // return copy to prevent external modification
+    }
+
+    public Map<Object, Object> getSuppliers() {
+        return new HashMap<>(suppliers);
+    }
 }
