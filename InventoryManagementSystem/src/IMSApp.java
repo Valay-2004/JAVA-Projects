@@ -1,14 +1,14 @@
 import model.*;
 
 import service.Inventory;
-import storage.InventoryFileStorage;
+import storage.CsvInventoryStorage;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 
 public class IMSApp implements Serializable {
     private static final long serialVersionUID = 1L;
-    private static final InventoryFileStorage storage = new InventoryFileStorage();
+    private static final CsvInventoryStorage storage = new CsvInventoryStorage();
 
     public static void start() {
         Inventory inv;
