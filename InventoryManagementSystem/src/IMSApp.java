@@ -19,7 +19,7 @@ public class IMSApp {
         }
 
         // Launch the interactive ui (CLI for now)
-        InventoryConsoleUI ui = new InventoryConsoleUI(inv, storage);
+    InventoryConsoleUI ui = new InventoryConsoleUI(inv, storage);
         ui.run();   // starts the menu loop
     }
 }
