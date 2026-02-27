@@ -3,12 +3,14 @@ package service;
 // imports here
 import model.*;
 
+import java.io.Serial;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.io.Serializable;
 
 public class Inventory implements Serializable{ // implement serializable
+    @Serial
     private static final long serialVersionUID = 1L; // good practice --> Okay :)
     // Storage Collection (model fields)
     private final Map<String, Product> products;
@@ -103,11 +105,11 @@ public class Inventory implements Serializable{ // implement serializable
         }
     }
 
-    public Map<Object, Object> getCategories() {
+    public Map<String, Category> getCategories() {
         return new HashMap<>(categories); // return copy to prevent external modification
     }
 
-    public Map<Object, Object> getSuppliers() {
+    public Map<String, Supplier> getSuppliers() {
         return new HashMap<>(suppliers);
     }
 }
