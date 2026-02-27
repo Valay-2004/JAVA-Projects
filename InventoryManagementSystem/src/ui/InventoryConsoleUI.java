@@ -5,7 +5,6 @@ import service.*;
 import storage.CsvInventoryStorage;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Scanner;
 
@@ -32,14 +31,14 @@ public class InventoryConsoleUI {
     }
 
     private void showMenu(){
-        System.out.println("\n--- Inventory Management ---");
-        System.out.print("1. Add Product\t\t | ");
+        System.out.println("\n\t\t------- Inventory Management -------");
+        System.out.print("1. Add Product\t\t\t\t | ");
         System.out.println("2. List All Products");
-        System.out.print("3. View Products by Category\t\t | ");
+        System.out.print("3. View Products by Category | ");
         System.out.println("4. Sell Item (Reduce stock)");
-        System.out.print("5. Add Stock\t\t | ");
+        System.out.print("5. Add Stock\t\t\t\t | ");
         System.out.println("6. Exit");
-        System.out.println("Choose an option: ");
+        System.out.print("Choose an option: ");
     }
 
     private boolean handleChoice(int choice){
@@ -56,6 +55,7 @@ public class InventoryConsoleUI {
                 }
                 default -> System.out.println("Invalid Option!");
             }
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
         }
@@ -78,4 +78,73 @@ public class InventoryConsoleUI {
         }
     }
 
+    // methods for the switch case in the HandleChoice
+    // listing all products
+    private void listAllProducts(){
+        var products = inventory.getAllProducts();
+        if(products.isEmpty()){
+            System.out.println("No products in inventory.");
+            return;
+        }
+        System.out.println("All Products: ");
+        for(var p : products){
+            System.out.printf("- %s (ID: %s, Stock: %d, Price: %s)%n",
+                    p.getName(),
+                    p.getId(),
+                    p.getStock(),
+                    p.getPrice()
+            );
+        }
+    }
+
+    // adding a product accordingly to the user
+    private void addProduct() throws InvalidProductException {
+        System.out.print("Enter ID for the product: ");
+        String id = scanner.nextLine();
+        System.out.print("Enter Name of the product: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter SupplierId: ");
+        String supplierId = scanner.nextLine();
+        System.out.print("Enter CategoryId: ");
+        String categoryId = scanner.nextLine();
+
+        System.out.println("Enter Initial Stock quantity: ");
+        int stock = scanner.nextInt();
+        scanner.nextLine();     // consume newline
+
+        System.out.println("Enter Price for the given Product: ");
+        BigDecimal price = new BigDecimal(scanner.nextLine());  // it's safer than nextBigDecimal
+
+        Product product = new Product(id, name, price, stock, supplierId, categoryId);
+        inventory.addProduct(product);
+    }
+
+    // view the Product by category
+    private void viewByCategory() throws InvalidProductException {
+        System.out.print("Enter Category: ");
+        String category = scanner.nextLine();
+        List<Product> productList = inventory.getProductByCategory(category);
+        for(Product p : productList){
+            System.out.println(p);
+        }
+    }
+
+    // removing / decrementing stock quantity
+    private void reduceStock() throws InvalidProductException {
+        System.out.print("Enter Product ID: ");
+        String productId = scanner.nextLine();
+        System.out.println("Enter Quantity to be reduced: ");
+        int quantity = scanner.nextInt();
+        inventory.reduceStock(productId, quantity);
+    }
+
+    // adding stocks to the current value / incrementing of stock
+    private void addStock() throws InvalidProductException{
+        System.out.print("Enter Product Id: ");
+        String productId = scanner.nextLine();
+        System.out.print("Enter Quantity to add: ");
+        int quantity = scanner.nextInt();
+        scanner.nextLine();
+        inventory.addStock(productId, quantity);
+    }
 }
