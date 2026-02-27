@@ -1,2 +1,3 @@
 id,name,price,stock,supplierId,categoryId
 P-100,Laptop,59999,9,SUP-1,CAT-1
+P-101,Redmi Note 10 Lite,16999,10,SUP-1,CAT-1
