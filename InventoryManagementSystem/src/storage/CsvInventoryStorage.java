@@ -1,10 +1,13 @@
 package storage;
 
+import model.Category;
 import model.Product;
+import model.Supplier;
 import service.InvalidProductException;
 import service.Inventory;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +20,7 @@ public class CsvInventoryStorage {
 
 
     // save Inventory method
-    public void saveInventory(Inventory inventory) throws IOException{
+    public void saveInventory(Inventory inventory) throws IOException {
         // Ensure data directory exists
         new File("data").mkdirs();
 
@@ -27,7 +30,7 @@ public class CsvInventoryStorage {
     }
 
     // load inventory method
-    public Inventory loadInventory() throws IOException{
+    public Inventory loadInventory() throws IOException {
         Inventory inv = new Inventory();
 
         loadCategories(inv);
@@ -36,6 +39,7 @@ public class CsvInventoryStorage {
 
         return inv;
     }
+
     private void saveProducts(List<Product> products) throws IOException {
         try (PrintWriter writer = new PrintWriter(new FileWriter(PRODUCTS_FILE))) {
             writer.println("id,name,price,stock,supplierId,categoryId");
@@ -53,8 +57,6 @@ public class CsvInventoryStorage {
         }
     }
 
-
-    // In CsvInventoryStorage.java
     private void loadProducts(Inventory inv) throws IOException {
         File file = new File(PRODUCTS_FILE);
         if (!file.exists()) return; // skip if no data
@@ -78,6 +80,77 @@ public class CsvInventoryStorage {
                     } catch (InvalidProductException e) {
                         System.err.println("Skipped invalid product: " + e.getMessage());
                     }
+                }
+            }
+        }
+    }
+
+    private void saveCategories(List<Category> categories) throws IOException {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(CATEGORIES_FILE))) {
+            writer.println("id,name");
+            for (Category c : categories) {
+                // In saveCategories():
+                writer.printf("%s,%s%n",
+                        c.getId(),
+                        c.getName());
+            }
+        }
+
+    }
+
+    private void loadCategories(Inventory inv) throws IOException {
+        File file = new File(CATEGORIES_FILE);
+        if (!file.exists()) return;  // skip if no data
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line = reader.readLine(); // skip header
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",", -1);
+                if (parts.length == 2) {
+                    Category c = new Category(
+                            parts[0],   // id
+                            parts[1]    // name
+                    );
+
+                    // Add to inventory!
+                    inv.addCategory(c); //  no need for try-catch block
+                }
+            }
+        }
+    }
+
+    private void saveSuppliers(List<Supplier> suppliers) throws IOException {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(SUPPLIERS_FILE))) {
+            writer.println("id,name,contactInfo");
+            for (Supplier s : suppliers) {
+                // In saveSuppliers():
+                writer.printf("%s,%s,%s%n",
+                        s.getId(),
+                        s.getName(),
+                        s.getContactInfo()
+                );
+            }
+        }
+    }
+
+    private void loadSuppliers(Inventory inv) throws IOException {
+        File file = new File(SUPPLIERS_FILE);
+        if (!file.exists()) return; // skip if no data
+
+        // run the loop to read all the suppliers
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line = reader.readLine();
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",", -1);
+                if (parts.length == 3) {
+                    Supplier s = new Supplier(
+                            parts[0],   // id
+                            parts[1],   // name
+                            parts[2]   // contactInfo
+                    );
+
+                    // Add to inv
+                        inv.addSupplier(s); // no need for try-catch block
                 }
             }
         }
