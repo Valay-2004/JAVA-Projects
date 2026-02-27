@@ -108,6 +108,36 @@ public class InventoryConsoleUI {
         System.out.print("Enter CategoryId: ");
         String categoryId = scanner.nextLine();
 
+        // validate category
+        if(!inventory.getCategories().containsKey(categoryId)){
+            System.out.println("Invalid Category ID: '" + categoryId + "'");
+            if(inventory.getCategories().isEmpty()){
+                // Todo -- Implement method for adding categories first
+                System.out.println("No categories exits. Add one first!");
+            } else {
+                System.out.println("Current available categories are: ");
+                inventory.getCategories().values().forEach(c ->
+                        System.out.println("  - " + c.getId() + " (" + c.getName() + ")")
+                );
+            }
+            return; // abort early as category id not found/unavailable
+        }
+
+        // Validate Supplier Id
+        if(!inventory.getSuppliers().containsKey(supplierId)){
+            System.out.println("Invalid Supplier ID: '" + supplierId + "'");
+            if(inventory.getSuppliers().isEmpty()){
+                // Todo -- Implement method for adding suppliers first
+                System.out.println("No suppliers exist. Add one first!");
+            } else {
+                System.out.println("Current available suppliers are: ");
+                inventory.getSuppliers().values().forEach(s ->
+                                System.out.println("  - " + s.getId() + " (" + s.getName() + ")")
+                        );
+            }
+        }
+
+        // Get stock & price
         System.out.println("Enter Initial Stock quantity: ");
         int stock = scanner.nextInt();
         scanner.nextLine();     // consume newline
@@ -115,6 +145,7 @@ public class InventoryConsoleUI {
         System.out.println("Enter Price for the given Product: ");
         BigDecimal price = new BigDecimal(scanner.nextLine());  // it's safer than nextBigDecimal
 
+        // Todo add the creation of product in try-catch block
         Product product = new Product(id, name, price, stock, supplierId, categoryId);
         inventory.addProduct(product);
     }
