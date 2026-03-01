@@ -14,7 +14,7 @@ public class Product implements Serializable {
     private String supplierId;
     private String categoryId;
 
-    public Product(String id, String name, BigDecimal price, int stock, String supplierId, String categoryId){
+    public Product(String id, String name, BigDecimal price, int stock, String supplierId, String categoryId) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -56,6 +56,7 @@ public class Product implements Serializable {
         if (this.stock < quantity) throw new IllegalStateException("Insufficient stock");
         this.stock -= quantity;
     }
+
     public void addStock(int quantity) {
         if (quantity <= 0) throw new IllegalArgumentException("Quantity must be positive");
         if (this.stock > Integer.MAX_VALUE - quantity) throw new IllegalStateException("Stock overflow");
