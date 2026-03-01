@@ -13,24 +13,24 @@ public class InventoryConsoleUI {
     private final CsvInventoryStorage storage;
     private final Scanner scanner;
 
-    public InventoryConsoleUI(Inventory inventory, CsvInventoryStorage storage){
+    public InventoryConsoleUI(Inventory inventory, CsvInventoryStorage storage) {
         this.inventory = inventory;
         this.storage = storage;
         this.scanner = new Scanner(System.in);
     }
 
-    public void run(){
-        while(true){
+    public void run() {
+        while (true) {
             showMenu();
             int choice = getIntInput();
-            if(!handleChoice(choice)){
+            if (!handleChoice(choice)) {
                 break;  //exit
             }
         }
         System.out.println("Goodbye!");
     }
 
-    private void showMenu(){
+    private void showMenu() {
         System.out.println("\n\t\t------- Inventory Management -------");
         System.out.print("1. Add Product\t\t\t\t | ");
         System.out.println("2. List All Products");
@@ -41,9 +41,9 @@ public class InventoryConsoleUI {
         System.out.print("Choose an option: ");
     }
 
-    private boolean handleChoice(int choice){
+    private boolean handleChoice(int choice) {
         try {
-            switch (choice){
+            switch (choice) {
                 case 1 -> addProduct();
                 case 2 -> listAllProducts();
                 case 3 -> viewByCategory();
@@ -62,32 +62,33 @@ public class InventoryConsoleUI {
         return true;
     }
 
-    private void saveAndExit(){
-        try{
+    private void saveAndExit() {
+        try {
             storage.saveInventory(inventory);
             System.out.println("Inventory saved.");
-        } catch (Exception e){
+        } catch (Exception e) {
             System.err.println("Failed to save: " + e.getMessage());
         }
     }
-    private int getIntInput(){
+
+    private int getIntInput() {
         try {
             return Integer.parseInt(scanner.nextLine().trim());
-        } catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             return -1;
         }
     }
 
     // methods for the switch case in the HandleChoice
     // listing all products
-    private void listAllProducts(){
+    private void listAllProducts() {
         var products = inventory.getAllProducts();
-        if(products.isEmpty()){
+        if (products.isEmpty()) {
             System.out.println("No products in inventory.");
             return;
         }
         System.out.println("All Products: ");
-        for(var p : products){
+        for (var p : products) {
             System.out.printf("- %s (ID: %s, Stock: %d, Price: %s)%n",
                     p.getName(),
                     p.getId(),
@@ -109,9 +110,9 @@ public class InventoryConsoleUI {
         String categoryId = scanner.nextLine();
 
         // validate category
-        if(!inventory.getCategories().containsKey(categoryId)){
+        if (!inventory.getCategories().containsKey(categoryId)) {
             System.out.println("Invalid Category ID: '" + categoryId + "'");
-            if(inventory.getCategories().isEmpty()){
+            if (inventory.getCategories().isEmpty()) {
                 // Todo -- Implement method for adding categories first
                 System.out.println("No categories exits. Add one first!");
             } else {
@@ -124,16 +125,16 @@ public class InventoryConsoleUI {
         }
 
         // Validate Supplier Id
-        if(!inventory.getSuppliers().containsKey(supplierId)){
+        if (!inventory.getSuppliers().containsKey(supplierId)) {
             System.out.println("Invalid Supplier ID: '" + supplierId + "'");
-            if(inventory.getSuppliers().isEmpty()){
+            if (inventory.getSuppliers().isEmpty()) {
                 // Todo -- Implement method for adding suppliers first
                 System.out.println("No suppliers exist. Add one first!");
             } else {
                 System.out.println("Current available suppliers are: ");
                 inventory.getSuppliers().values().forEach(s ->
-                                System.out.println("  - " + s.getId() + " (" + s.getName() + ")")
-                        );
+                        System.out.println("  - " + s.getId() + " (" + s.getName() + ")")
+                );
             }
         }
 
@@ -155,7 +156,7 @@ public class InventoryConsoleUI {
         System.out.print("Enter Category: ");
         String category = scanner.nextLine();
         List<Product> productList = inventory.getProductByCategory(category);
-        for(Product p : productList){
+        for (Product p : productList) {
             System.out.println(p);
         }
     }
@@ -170,7 +171,7 @@ public class InventoryConsoleUI {
     }
 
     // adding stocks to the current value / incrementing of stock
-    private void addStock() throws InvalidProductException{
+    private void addStock() throws InvalidProductException {
         System.out.print("Enter Product Id: ");
         String productId = scanner.nextLine();
         System.out.print("Enter Quantity to add: ");
