@@ -8,7 +8,7 @@ import ui.InventoryConsoleUI;
 public class IMSApp {
 
     public static void start() {
-    CsvInventoryStorage storage = new CsvInventoryStorage();
+        CsvInventoryStorage storage = new CsvInventoryStorage();
         Inventory inv;
         try {
             inv = storage.loadInventory(); // Load existing data
@@ -19,7 +19,7 @@ public class IMSApp {
         }
 
         // Launch the interactive ui (CLI for now)
-    InventoryConsoleUI ui = new InventoryConsoleUI(inv, storage);
+        InventoryConsoleUI ui = new InventoryConsoleUI(inv, storage);
         ui.run();   // starts the menu loop
     }
 }
