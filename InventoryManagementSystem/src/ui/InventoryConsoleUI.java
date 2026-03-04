@@ -2,12 +2,15 @@ package ui;
 
 import model.Category;
 import model.Product;
+import model.Supplier;
 import service.*;
 import storage.CsvInventoryStorage;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class InventoryConsoleUI {
     private final Inventory inventory;
@@ -118,12 +121,43 @@ public class InventoryConsoleUI {
             System.out.println("Invalid Supplier ID: '" + supplierId + "'");
             if (inventory.getSuppliers().isEmpty()) {
                 // Todo -- Implement method for adding suppliers first
-                System.out.println("No suppliers exist. Add one first!");
+                System.out.println("No suppliers exist yet!");
             } else {
-                System.out.println("Current available suppliers are: ");
+                System.out.println("Currently available suppliers are: ");
                 inventory.getSuppliers().values().forEach(s ->
                         System.out.println("  - " + s.getId() + " (" + s.getName() + ")")
                 );
+            }
+
+            // Asking the user if they would like to add new supplier
+            System.out.print("Would you like to add new Supplier [Y/n] (press Enter = Yes): ");
+            String addOrNot = scanner.nextLine().toLowerCase().trim();
+            if (addOrNot.isEmpty() || addOrNot.charAt(0) == 'y'){
+                // ask for new supplier Id
+                System.out.print("Enter new supplier ID: ");
+                String newSupId = scanner.nextLine();
+                // check if the newSupId is already present
+                if(inventory.getSuppliers().containsKey(newSupId)){
+                    // let them know that the supplier id is already available and will now be used for the given
+                    System.out.println("Supplier ID already exist. Using the existing one.");
+                    supplierId = newSupId;
+                    continue;
+                }
+                // get the Supplier name and contact info
+                System.out.print("Enter Supplier Name: ");
+                String supplierName = scanner.nextLine();
+                System.out.print("Enter Email of the Supplier: ");
+                String emailAddress = scanner.nextLine();
+
+
+                // check if either id,name,contact-info is empty
+                if(newSupId.isEmpty() || supplierName.isEmpty()){
+                    System.out.println("Supplier Id or Name cannot be empty. Please try again!");
+                    continue;
+                }
+
+                // now let's create the new supplier
+                Supplier supplier = new Supplier(newSupId, supplierName, );
             }
         }
 
@@ -182,7 +216,7 @@ public class InventoryConsoleUI {
             }
 
             // Ask the user if they would like to add new category
-            System.out.print("Would you like to add a new category? [y/N] (press Enter = Yes): ");
+            System.out.print("Would you like to add a new category? [Y/n] (press Enter = Yes): ");
             String addOrNot = scanner.nextLine().toLowerCase().trim();
             if(addOrNot.isEmpty() || addOrNot.charAt(0) == 'y') {
                 System.out.print("Enter category ID: ");
@@ -216,5 +250,25 @@ public class InventoryConsoleUI {
             }
             System.out.println("Using category: " + categoryId + " (" + inventory.getCategories().get(categoryId).getName() + ")");
         }
+    }
+
+    // email validator
+    private boolean emailValidator(String emailAddress){
+        final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
+        final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX, Pattern.CASE_INSENSITIVE);
+        boolean isValid = false;
+
+        do{
+            System.out.println("Please enter a valid email address (e.g., user@example.com: ");
+            emailAddress = scanner.nextLine();
+            // validate the entered email
+            Matcher matcher = EMAIL_PATTERN.matcher(emailAddress);
+            isValid = matcher.matches();
+            if(!isValid) System.out.println("Invalid email. Please try again.");
+        } while (!isValid);
+
+        System.out.print("Email address '" + emailAddress + "' is valid. Proceeding...");
+        scanner.nextLine();
+        return true;
     }
 }
