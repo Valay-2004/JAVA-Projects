@@ -36,23 +36,19 @@ public class Inventory implements Serializable { // implement serializable
 
     // Method for adding Product
     public void addProduct(Product product) throws InvalidProductException {
-        // TODO: Validate product != null
+
         if (product == null) {
             throw new InvalidProductException("Product cannot be null!");
         }
-        // TODO: Validate product ID is not already used
         if (products.containsKey(product.getId())) {
             throw new InvalidProductException("Product ID '" + product.getId() + "' is already in use!");
         }
-        // TODO: Validate category exists
         if (!categories.containsKey(product.getCategoryId())) {
             throw new InvalidProductException("Category ID '" + product.getCategoryId() + "' does not exist!");
         }
-        // TODO: Validate supplier exists
         if (!suppliers.containsKey(product.getSupplierId())) {
             throw new InvalidProductException("Supplier ID '" + product.getSupplierId() + "' does not exist!");
         }
-        // TODO: Validate price > 0 and stock >= 0
         if (product.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
             throw new InvalidProductException("Product price must be greater than zero!");
         }
