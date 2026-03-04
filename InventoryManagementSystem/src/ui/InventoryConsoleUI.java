@@ -1,5 +1,6 @@
 package ui;
 
+import model.Category;
 import model.Product;
 import service.*;
 import storage.CsvInventoryStorage;
@@ -104,28 +105,16 @@ public class InventoryConsoleUI {
         String id = scanner.nextLine();
         System.out.print("Enter Name of the product: ");
         String name = scanner.nextLine();
-        System.out.print("Enter SupplierId: ");
-        String supplierId = scanner.nextLine();
-        System.out.print("Enter CategoryId: ");
-        String categoryId = scanner.nextLine();
 
         // validate category
-        if (!inventory.getCategories().containsKey(categoryId)) {
-            System.out.println("Invalid Category ID: '" + categoryId + "'");
-            if (inventory.getCategories().isEmpty()) {
-                // Todo -- Implement method for adding categories first
-                System.out.println("No categories exits. Add one first!");
-            } else {
-                System.out.println("Current available categories are: ");
-                inventory.getCategories().values().forEach(c ->
-                        System.out.println("  - " + c.getId() + " (" + c.getName() + ")")
-                );
-            }
-            return; // abort early as category id not found/unavailable
-        }
+        System.out.print("Enter CategoryId: ");
+        String categoryId = scanner.nextLine();
+        checkCategories(categoryId);
 
         // Validate Supplier Id
-        if (!inventory.getSuppliers().containsKey(supplierId)) {
+        System.out.print("Enter SupplierId: ");
+        String supplierId = scanner.nextLine();
+        while (!inventory.getSuppliers().containsKey(supplierId)) {
             System.out.println("Invalid Supplier ID: '" + supplierId + "'");
             if (inventory.getSuppliers().isEmpty()) {
                 // Todo -- Implement method for adding suppliers first
@@ -178,5 +167,54 @@ public class InventoryConsoleUI {
         int quantity = scanner.nextInt();
         scanner.nextLine();
         inventory.addStock(productId, quantity);
+    }
+
+    private void checkCategories(String categoryId){
+        while (!inventory.getCategories().containsKey(categoryId)) {
+            System.out.println("Invalid Category ID: '" + categoryId + "'");
+            if (inventory.getCategories().isEmpty()) {
+                System.out.println("No categories exits yet.");
+            } else {
+                System.out.println("Currently available categories are: ");
+                inventory.getCategories().values().forEach(c ->
+                        System.out.println("  - " + c.getId() + " (" + c.getName() + ")")
+                );
+            }
+
+            // Ask the user if they would like to add new category
+            System.out.print("Would you like to add a new category? [y/N] (press Enter = Yes): ");
+            String addOrNot = scanner.nextLine().toLowerCase().trim();
+            if(addOrNot.isEmpty() || addOrNot.charAt(0) == 'y') {
+                System.out.print("Enter category ID: ");
+                String catId = scanner.nextLine();
+                // check if the category already exists
+                if(inventory.getCategories().containsKey(catId)) {
+                    System.out.println("Category ID already exists. Using the existing one.");
+                    categoryId = catId;
+                    continue; // will exit the while loop on next check
+                }
+                System.out.print("Enter name of the category: ");
+                String catName = scanner.nextLine();
+
+                if(catId.isEmpty() || catName.isEmpty()) {
+                    System.out.println("Category ID or name cannot be empty. Try again.");
+                    continue;
+                }
+                Category category = new Category(catId, catName);
+                inventory.addCategory(category);
+                System.out.println("✓ New Category '" + catId + "' (" + catName + ") added successfully!");
+
+                categoryId = catId;
+            } else {
+                System.out.println("Enter a different category ID (or just press Enter to cancel): ");
+                String newAttempt = scanner.nextLine().trim();
+                if(newAttempt.isEmpty()){
+                    System.out.println("Product addition cancelled (no valid category).");
+                    return;
+                }
+                categoryId = newAttempt;
+            }
+            System.out.println("Using category: " + categoryId + " (" + inventory.getCategories().get(categoryId).getName() + ")");
+        }
     }
 }
