@@ -138,7 +138,7 @@ public class InventoryConsoleUI {
         String category = scanner.nextLine();
         List<Product> productList = inventory.getProductByCategory(category);
         for (Product p : productList) {
-            System.out.println(p);
+            System.out.println(p.toString());
         }
     }
 
