@@ -62,5 +62,9 @@ public class Product implements Serializable {
         if (this.stock > Integer.MAX_VALUE - quantity) throw new IllegalStateException("Stock overflow");
         this.stock += quantity;
     }
-
+    @Override
+    public String toString() {
+        return String.format("%s (ID: %s, Stock: %d, Price: %s)",
+                name, id, stock, price);
+    }
 }
