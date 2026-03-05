@@ -127,12 +127,8 @@ public class InventoryConsoleUI {
         System.out.println("Enter Price for the given Product: ");
         BigDecimal price = new BigDecimal(scanner.nextLine());  // it's safer than nextBigDecimal
 
-        try{
         Product product = new Product(id, name, price, stock, supplierId, categoryId);
         inventory.addProduct(product);
-        } catch (InvalidProductException e) {
-            System.err.println("We'd some error while adding the product!" + e.getMessage());
-        }
 
     }
 
