@@ -6,6 +6,7 @@ import model.Supplier;
 import service.*;
 import storage.CsvInventoryStorage;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Scanner;
@@ -36,12 +37,14 @@ public class InventoryConsoleUI {
 
     private void showMenu() {
         System.out.println("\n\t\t------- Inventory Management -------");
-        System.out.print("1. Add Product\t\t\t\t | ");
+        System.out.print("1. Add Product\t\t\t\t\t | ");
         System.out.println("2. List All Products");
-        System.out.print("3. View Products by Category | ");
-        System.out.println("4. Sell Item (Reduce stock)");
-        System.out.print("5. Add Stock\t\t\t\t | ");
-        System.out.println("6. Exit");
+        System.out.print("3. View Products by Category\t | ");
+        System.out.println("4. Sell Item ");
+        System.out.print("5. Add Stock\t\t\t\t\t | ");
+        System.out.println("6. Add Category");
+        System.out.print("7. Add Supplier\t\t\t\t\t | ");
+        System.out.println("8. Exit");
         System.out.print("Choose an option: ");
     }
 
@@ -53,7 +56,10 @@ public class InventoryConsoleUI {
                 case 3 -> viewByCategory();
                 case 4 -> reduceStock();
                 case 5 -> addStock();
-                case 6 -> {
+                // ToDo change checkCategory/checkSupplier method to different add-Category/Supplier method
+                case 6 -> addCategory();
+                case 7 -> addSupplier();
+                case 8 -> {
                     saveAndExit();
                     return false; //signal to exit loop
                 }
@@ -103,7 +109,7 @@ public class InventoryConsoleUI {
     }
 
     // adding a product accordingly to the user
-    private void addProduct() throws InvalidProductException {
+    private void addProduct() throws InvalidProductException, IOException {
         System.out.print("Enter ID for the product: ");
         String id = scanner.nextLine();
         System.out.print("Enter Name of the product: ");
@@ -130,6 +136,9 @@ public class InventoryConsoleUI {
         Product product = new Product(id, name, price, stock, supplierId, categoryId);
         inventory.addProduct(product);
 
+        // save the update on running instance
+        storage.saveInventory(inventory);
+
     }
 
     // view the Product by category
@@ -143,22 +152,27 @@ public class InventoryConsoleUI {
     }
 
     // removing / decrementing stock quantity
-    private void reduceStock() throws InvalidProductException {
+    private void reduceStock() throws InvalidProductException, IOException {
         System.out.print("Enter Product ID: ");
         String productId = scanner.nextLine();
         System.out.println("Enter Quantity to be reduced: ");
         int quantity = scanner.nextInt();
         inventory.reduceStock(productId, quantity);
+
+        storage.saveInventory(inventory);
     }
 
     // adding stocks to the current value / incrementing of stock
-    private void addStock() throws InvalidProductException {
+    private void addStock() throws InvalidProductException, IOException {
         System.out.print("Enter Product Id: ");
         String productId = scanner.nextLine();
         System.out.print("Enter Quantity to add: ");
         int quantity = scanner.nextInt();
         scanner.nextLine();
         inventory.addStock(productId, quantity);
+
+        // update the storage
+        storage.saveInventory(inventory);
     }
 
     // category checker
