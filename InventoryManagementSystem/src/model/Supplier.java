@@ -27,4 +27,9 @@ public class Supplier implements Serializable {
     public String getContactInfo() {
         return contactInfo;
     }
+
+    @Override
+    public String toString(){
+        return name + " (ID: " + id + ", Email: " + contactInfo + ") ";
+    }
 }
