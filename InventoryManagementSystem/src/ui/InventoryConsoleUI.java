@@ -56,7 +56,6 @@ public class InventoryConsoleUI {
                 case 3 -> viewByCategory();
                 case 4 -> reduceStock();
                 case 5 -> addStock();
-                // ToDo change checkCategory/checkSupplier method to different add-Category/Supplier method
                 case 6 -> addCategory();
                 case 7 -> addSupplier();
                 case 8 -> {
