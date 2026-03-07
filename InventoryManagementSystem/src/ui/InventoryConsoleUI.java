@@ -143,7 +143,10 @@ public class InventoryConsoleUI {
     // view the Product by category
     private void viewByCategory() throws InvalidProductException {
         System.out.print("Enter Category: ");
-        String category = scanner.nextLine();
+        String category = scanner.nextLine().trim();
+        if(category.isEmpty()){
+            System.out.println("⨻ Category cannot be empty!");
+        }
         List<Product> productList = inventory.getProductByCategory(category);
         for (Product p : productList) {
             System.out.println(p.toString());
@@ -323,11 +326,15 @@ public class InventoryConsoleUI {
     private void addCategory(){
         System.out.print("Enter New Category ID: ");
         String newCatId = scanner.nextLine().trim();
+        if(inventory.getCategories().containsKey(newCatId)){
+            System.out.println("■ Category ID already exist.");
+            return;
+        }
         System.out.print("Enter New Category Name: ");
         String newCatName = scanner.nextLine().trim();
 
         if(newCatId.isEmpty() || newCatName.isEmpty()){
-            System.out.println("Name or ID cannot be empty. Please try again!");
+            System.out.println("⨻ Name or ID cannot be empty. Please try again!");
             return;
         }
         inventory.addCategory(new Category(newCatId, newCatName));
@@ -337,12 +344,16 @@ public class InventoryConsoleUI {
     private void addSupplier(){
         System.out.print("Enter New Supplier ID: ");
         String newSupId = scanner.nextLine().trim();
+        if(inventory.getSuppliers().containsKey(newSupId)){
+            System.out.println("■ Supplier ID already exist.");
+            return;
+        }
         System.out.println("Enter New Supplier Name: ");
         String newSupName = scanner.nextLine().trim();
         String newSupEmail = emailValidator(scanner);
 
         if(newSupId.isEmpty() || newSupName.isEmpty()){
-            System.out.println("Supplier Id or Name cannot be empty. Please try again!");
+            System.out.println("⨻ Supplier Id or Name cannot be empty. Please try again!");
             return;
         }
         inventory.addSupplier(new Supplier(newSupId, newSupName, newSupEmail));
