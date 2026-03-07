@@ -311,6 +311,7 @@ public class InventoryConsoleUI {
         } while (true);
     }
 
+    // save quietly
     private void saveQuietly(){
         try{
             storage.saveInventory(inventory);
@@ -321,7 +322,18 @@ public class InventoryConsoleUI {
 
     // Simple category/supplier adder for the menu options
     private void addCategory(){
+        System.out.print("Enter New Category ID: ");
+        String newCatId = scanner.nextLine().trim();
+        System.out.print("Enter New Category Name: ");
+        String newCatName = scanner.nextLine().trim();
 
+        if(newCatId.isEmpty() || newCatName.isEmpty()){
+            System.out.println("Name or ID cannot be empty. Please try again!");
+            return;
+        }
+        inventory.addCategory(new Category(newCatId, newCatName));
+        saveQuietly();
+        System.out.println("✓ New Category added!");
     }
     private void addSupplier(){
 
