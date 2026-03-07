@@ -242,7 +242,7 @@ public class InventoryConsoleUI {
             System.out.print("Would you like to add new Supplier [Y/n] (press Enter = Yes): ");
             String addOrNot = scanner.nextLine().toLowerCase().trim();
             if (addOrNot.isEmpty() || addOrNot.charAt(0) == 'y'){
-                // ask for new supplier Id
+                // ask for new supplier ID
                 System.out.print("Enter new supplier ID: ");
                 String newSupId = scanner.nextLine();
                 // check if the newSupId is already present
@@ -336,6 +336,18 @@ public class InventoryConsoleUI {
         System.out.println("✓ New Category added!");
     }
     private void addSupplier(){
+        System.out.print("Enter New Supplier ID: ");
+        String newSupId = scanner.nextLine().trim();
+        System.out.println("Enter New Supplier Name: ");
+        String newSupName = scanner.nextLine().trim();
+        String newSupEmail = emailValidator(scanner);
 
+        if(newSupId.isEmpty() || newSupName.isEmpty()){
+            System.out.println("Supplier Id or Name cannot be empty. Please try again!");
+            return;
+        }
+        inventory.addSupplier(new Supplier(newSupId, newSupName, newSupEmail));
+        saveQuietly();
+        System.out.println("✓ New Supplier added!");
     }
 }
