@@ -109,7 +109,7 @@ public class InventoryConsoleUI {
     }
 
     // adding a product accordingly to the user
-    private void addProduct() throws InvalidProductException, IOException {
+    private void addProduct() throws InvalidProductException {
         System.out.print("Enter ID for the product: ");
         String id = scanner.nextLine();
         System.out.print("Enter Name of the product: ");
@@ -137,7 +137,7 @@ public class InventoryConsoleUI {
         inventory.addProduct(product);
 
         // save the update on running instance
-        storage.saveInventory(inventory);
+        saveQuietly();
 
     }
 
@@ -152,18 +152,18 @@ public class InventoryConsoleUI {
     }
 
     // removing / decrementing stock quantity
-    private void reduceStock() throws InvalidProductException, IOException {
+    private void reduceStock() throws InvalidProductException {
         System.out.print("Enter Product ID: ");
         String productId = scanner.nextLine();
         System.out.println("Enter Quantity to be reduced: ");
         int quantity = scanner.nextInt();
         inventory.reduceStock(productId, quantity);
 
-        storage.saveInventory(inventory);
+        saveQuietly();
     }
 
     // adding stocks to the current value / incrementing of stock
-    private void addStock() throws InvalidProductException, IOException {
+    private void addStock() throws InvalidProductException {
         System.out.print("Enter Product Id: ");
         String productId = scanner.nextLine();
         System.out.print("Enter Quantity to add: ");
@@ -172,7 +172,7 @@ public class InventoryConsoleUI {
         inventory.addStock(productId, quantity);
 
         // update the storage
-        storage.saveInventory(inventory);
+        saveQuietly();
     }
 
     // category checker
@@ -309,5 +309,21 @@ public class InventoryConsoleUI {
             System.out.println("Email '" + emailAddress + "' looks good.");
             return emailAddress;
         } while (true);
+    }
+
+    private void saveQuietly(){
+        try{
+            storage.saveInventory(inventory);
+        } catch (IOException e) {
+            System.err.println("Got into an error : " + e.getMessage());
+        }
+    }
+
+    // Simple category/supplier adder for the menu options
+    private void addCategory(){
+
+    }
+    private void addSupplier(){
+
     }
 }
