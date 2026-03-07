@@ -2,3 +2,4 @@ id,name,price,stock,supplierId,categoryId
 P-100,Laptop,59999,9,SUP-1,CAT-1
 P-101,Redmi Note 10 Lite,16999,10,SUP-1,CAT-1
 P-102,Redmi Watch 3 Active,2999,10,SUP-2,CAT-3
+P-103,Parachute Coconut Hail Oil,68,10,SUP-123,CAT-123
