@@ -19,14 +19,15 @@ All projects are written in pure Java, focusing on practical learning through ha
    1. [Bank Account Simulator](./Bank%20Account%20Simulator/BankAccountSimulator)
    2. [Student Grade Management System (StudentGMS)](./StudentGMS)
    3. [File Backup Utility](./FileBackupUtility/FileBackupUtility)
+4. [Inventory Management System](./InventoryManagementSystem)
 
 ---
 ### How to Run Projects
 All projects are console-based and use standard Java without external build tools.
 1. Clone the repository:
-```bash
-git clone https://github.com/Valay-2004/JAVA-Projects.git
-```    
+    ```bash
+    git clone https://github.com/Valay-2004/JAVA-Projects.git
+    ```    
 2. Navigate to the project directory and follow its specific README for compilation and execution.
 
 ---
