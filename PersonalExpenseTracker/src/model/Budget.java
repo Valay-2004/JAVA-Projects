@@ -7,25 +7,28 @@ public class Budget {
     private String id;
     private String categoryId;
     private BigDecimal limit;
-    private LocalDate localDate = LocalDate.now();
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     // Constructor
-    public Budget(String id, String categoryId, BigDecimal limit){
+    public Budget(String id, String categoryId, BigDecimal limit, LocalDate startDate, LocalDate endDate){
         this.id = id;
         this.categoryId = categoryId;
         this.limit = limit;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     // getters
     public String getId(){return id;}
     public String getCategoryId(){return categoryId;}
     public BigDecimal getLimit(){return limit;}
-    public LocalDate getLocalDate() {
-        return localDate;
+
+    public LocalDate getStartDate() {
+        return startDate;
     }
 
-    //setter for localDate
-    public void setLocalDate(LocalDate localDate) {
-        this.localDate = localDate;
+    public LocalDate getEndDate() {
+        return endDate;
     }
 }
