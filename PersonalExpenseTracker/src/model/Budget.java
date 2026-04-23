@@ -4,11 +4,11 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Budget {
-    private String id;
-    private String categoryId;
-    private BigDecimal limit;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private final String id;
+    private final String categoryId;
+    private final BigDecimal limit;
+    private final LocalDate startDate;
+    private final LocalDate endDate;
 
     // Constructor
     public Budget(String id, String categoryId, BigDecimal limit, LocalDate startDate, LocalDate endDate){
