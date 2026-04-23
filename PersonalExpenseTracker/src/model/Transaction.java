@@ -50,7 +50,7 @@ public class Transaction {
     }
 
     // isValid() method
-    public boolean isValid(BigDecimal amount) {
+    public boolean isValid() {
         return amount != null
                 && amount.compareTo(BigDecimal.ZERO) >= 0
                 && date != null
