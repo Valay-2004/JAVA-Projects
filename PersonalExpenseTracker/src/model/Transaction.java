@@ -51,11 +51,11 @@ public class Transaction {
 
     // isValid() method
     public boolean isValid() {
-        return amount != null
-                && amount.compareTo(BigDecimal.ZERO) >= 0
-                && date != null
-                && categoryId != null
-                && type != null;
+        return this.amount != null
+                && this.amount.compareTo(BigDecimal.ZERO) >= 0
+                && this.date != null
+                && this.categoryId != null
+                && this.type != null;
     }
 
     // overridden method for toString()
