@@ -2,22 +2,24 @@ package model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 public class Transaction {
     private final String id;
     private final BigDecimal amount;
-    private final LocalDate date;
+//    private final LocalDate date;
     private final String categoryId;
     private final TransactionType type;
     private final String note;
+    private final String date; // Store as "YYYY-MM-DD" string
 
 
     // constructor
     public Transaction(String id, BigDecimal amount, LocalDate date, String categoryId, TransactionType type, String note) {
         this.id = id != null ? id : UUID.randomUUID().toString();
         this.amount = amount;
-        this.date = date;
+        this.date = date != null ? date.format(DateTimeFormatter.ISO_LOCAL_DATE) : null;
         this.type = type;
         this.categoryId = categoryId;
         this.note = note;
@@ -41,12 +43,14 @@ public class Transaction {
         return note;
     }
 
-    public LocalDate getDate() {
-        return date;
-    }
 
     public TransactionType getType() {
         return type;
+    }
+
+    // parsed date
+    public LocalDate getParsedDate() {
+        return date != null ? LocalDate.parse(date) : null;
     }
 
     // isValid() method

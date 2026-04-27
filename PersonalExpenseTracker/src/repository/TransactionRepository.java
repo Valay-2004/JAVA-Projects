@@ -3,7 +3,6 @@ package repository;
 import com.google.gson.Gson;
 import model.Transaction;
 import java.io.*;
-import java.lang.reflect.Type;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,51 +18,36 @@ public class TransactionRepository {
     }
 
 
-    /*
-    Implementation Hints:
-    For saveTransaction:
-        Convert Transaction to JSON: gson.toJson(transaction)
-        Append + newline to file using FileWriter(true) (append mode)
-        Better: Use atomicWrite to avoid partial writes
-    For loadAllTransactions:
-        Use BufferedReader to read line-by-line
-    For each line: gson.fromJson(line, Transaction.class)
-        Add to List<Transaction>
-        Handle IOException and JsonSyntaxException
-    For atomicWrite:
-        Write content to filePath + ".tmp"
-        Use Files.move(tempPath, targetPath, ATOMIC_MOVE)
-     */
     // TODO: Implement saveTransaction(Transaction t)
     public void saveTransaction(Transaction t){
-        String transactionJson = gson.toJson(t);
+        List<Transaction> allTransactions = loadAllTransactions();
+        allTransactions.add(t);
 
-        // append newline to transaction.jsonl
-        try(FileWriter fw = new FileWriter("data/transaction.jsonl", true);
-        BufferedWriter bw = new BufferedWriter(fw)){
-            bw.write(transactionJson);
-            bw.newLine(); // add newline for jsonl format
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        // Convert all to JSONL string
+        StringBuilder sb = new StringBuilder();
+        for (Transaction trans : allTransactions) {
+            sb.append(gson.toJson(trans)).append("\n");
         }
+
+        atomicWrite(sb.toString(), "data/transactions.jsonl");
     }
 
     // TODO: Implement loadAllTransactions() -> List<Transaction>
-    public void loadAllTransactions() {
+    public List<Transaction> loadAllTransactions() {
         List<Transaction> transactionsList = new ArrayList<>();
 
         // parse file line by line and return the List of Transactions
         try (BufferedReader br = new BufferedReader(new FileReader("data/transaction.jsonl"))) {
             String line;
             while ((line = br.readLine()) != null) {
-                Transaction transaction = gson.fromJson(line, (Type) Transaction.class);
+                Transaction transaction = gson.fromJson(line, Transaction.class);
                 transactionsList.add(transaction);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        transactionsList.forEach(System.out::println);
+        return transactionsList;
     }
 
     // TODO: Implement private atomicWrite(String content, String path)
@@ -77,7 +61,14 @@ public class TransactionRepository {
             bw.write(content);
             Files.move(tempPath, targetPath, StandardCopyOption.ATOMIC_MOVE);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            // Cleanup: delete temp file if it exists but move failed
+            try {
+                Files.deleteIfExists(tempPath);
+            } catch (IOException ex) {
+                // Log but don't hide the original error
+                e.addSuppressed(ex);
+            }
+            throw new RuntimeException("Failed to write file: " + path, e);
         }
     }
 }
