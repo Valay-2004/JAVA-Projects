@@ -18,7 +18,7 @@ public class TransactionRepository {
     }
 
 
-    // TODO: Implement saveTransaction(Transaction t) -- Completed
+    // DONE: Implement saveTransaction(Transaction t)
     public void saveTransaction(Transaction t){
         List<Transaction> allTransactions = loadAllTransactions();
         allTransactions.add(t);
@@ -32,7 +32,7 @@ public class TransactionRepository {
         atomicWrite(sb.toString(), FILE_PATH);
     }
 
-    // TODO: Implement loadAllTransactions() -> List<Transaction> -- Completed
+    // DONE: Implement loadAllTransactions() -> List<Transaction>
     public List<Transaction> loadAllTransactions() {
         List<Transaction> transactionsList = new ArrayList<>();
 
@@ -59,7 +59,7 @@ public class TransactionRepository {
         return transactionsList;
     }
 
-    // TODO: Implement private atomicWrite(String content, String path) -- Completed
+    // DONE: Implement private atomicWrite(String content, String path)
     public void atomicWrite(String content, String path){
         // target path
         Path targetPath = Paths.get(path);
