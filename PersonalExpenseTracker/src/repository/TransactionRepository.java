@@ -51,7 +51,7 @@ public class TransactionRepository {
                 transactionsList.add(transaction);
             }
         } catch (IOException e) {
-            System.err.println("Error reading transaction: " + e.getMessage());;
+            System.err.println("Error reading transaction: " + e.getMessage());
             // returning whatever we got instead of the crash
             return transactionsList;
         }
@@ -67,7 +67,7 @@ public class TransactionRepository {
         Path tempPath = Paths.get(path + ".tmp");
 
         try {
-            // check if the directory exists for tmp file to exists
+            // check if the directory exists for tmp file to exist
             Files.createDirectories(targetPath.getParent());
             try (BufferedWriter bw = new BufferedWriter(new FileWriter(path + ".tmp"))) {
                 bw.write(content);
@@ -75,7 +75,7 @@ public class TransactionRepository {
             try{
                 Files.move(tempPath, targetPath, StandardCopyOption.ATOMIC_MOVE);
             } catch (AtomicMoveNotSupportedException e) {
-                Files.move(tempPath, targetPath, StandardCopyOption.ATOMIC_MOVE);
+                Files.move(tempPath, targetPath, StandardCopyOption.REPLACE_EXISTING);
             }
         } catch (IOException e) {
             // Cleanup: delete temp file if it exists but move failed
