@@ -1,10 +1,10 @@
 package model;
 
 public class Category {
-    private final String id;
-    private final String name;
-    private final String parentId;
-    private final CategoryType type;
+    private String id;
+    private String name;
+    private String parentId;
+    private CategoryType type;
 
 
     // constructor
