@@ -18,7 +18,7 @@ public class TransactionRepository {
     }
 
 
-    // TODO: Implement saveTransaction(Transaction t)
+    // TODO: Implement saveTransaction(Transaction t) -- Completed
     public void saveTransaction(Transaction t){
         List<Transaction> allTransactions = loadAllTransactions();
         allTransactions.add(t);
@@ -29,37 +29,54 @@ public class TransactionRepository {
             sb.append(gson.toJson(trans)).append("\n");
         }
 
-        atomicWrite(sb.toString(), "data/transactions.jsonl");
+        atomicWrite(sb.toString(), FILE_PATH);
     }
 
-    // TODO: Implement loadAllTransactions() -> List<Transaction>
+    // TODO: Implement loadAllTransactions() -> List<Transaction> -- Completed
     public List<Transaction> loadAllTransactions() {
         List<Transaction> transactionsList = new ArrayList<>();
 
+        // Check if the file exists in the FILE_PATH
+        Path filePath = Paths.get(FILE_PATH);
+        if(!Files.exists(filePath)) return transactionsList;
+
         // parse file line by line and return the List of Transactions
-        try (BufferedReader br = new BufferedReader(new FileReader("data/transaction.jsonl"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
             String line;
             while ((line = br.readLine()) != null) {
+                // skip empty lines
+                if (line.trim().isEmpty()) continue;
+
                 Transaction transaction = gson.fromJson(line, Transaction.class);
                 transactionsList.add(transaction);
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.err.println("Error reading transaction: " + e.getMessage());;
+            // returning whatever we got instead of the crash
+            return transactionsList;
         }
 
         return transactionsList;
     }
 
-    // TODO: Implement private atomicWrite(String content, String path)
+    // TODO: Implement private atomicWrite(String content, String path) -- Completed
     public void atomicWrite(String content, String path){
         // target path
         Path targetPath = Paths.get(path);
         // temp path
         Path tempPath = Paths.get(path + ".tmp");
 
-        try(BufferedWriter bw = new BufferedWriter(new FileWriter(path + ".tmp"))){
-            bw.write(content);
-            Files.move(tempPath, targetPath, StandardCopyOption.ATOMIC_MOVE);
+        try {
+            // check if the directory exists for tmp file to exists
+            Files.createDirectories(targetPath.getParent());
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(path + ".tmp"))) {
+                bw.write(content);
+            }
+            try{
+                Files.move(tempPath, targetPath, StandardCopyOption.ATOMIC_MOVE);
+            } catch (AtomicMoveNotSupportedException e) {
+                Files.move(tempPath, targetPath, StandardCopyOption.ATOMIC_MOVE);
+            }
         } catch (IOException e) {
             // Cleanup: delete temp file if it exists but move failed
             try {
