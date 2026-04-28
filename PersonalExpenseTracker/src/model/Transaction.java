@@ -6,13 +6,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 public class Transaction {
-    private final String id;
-    private final BigDecimal amount;
+    private String id;
+    private BigDecimal amount;
 //    private final LocalDate date;
-    private final String categoryId;
-    private final TransactionType type;
-    private final String note;
-    private final String date; // Store as "YYYY-MM-DD" string
+    private String categoryId;
+    private TransactionType type;
+    private String note;
+    private String date; // Store as "YYYY-MM-DD" string
 
 
     // constructor
