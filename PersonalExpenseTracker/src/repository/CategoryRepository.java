@@ -26,17 +26,16 @@ public class CategoryRepository {
 
     // loading categories
     public List<Category> loadCategories(){
-        List<Category> categoryList = new ArrayList<>();
         Path path = Paths.get(FILE_PATH);
         // check for the file if exist
-        if(!Files.exists(path)) return categoryList;
+        if(!Files.exists(path)) return new ArrayList<>();
 
         try (Reader reader = new FileReader(path.toFile())) {
             Type listType = new TypeToken<List<Category>>() {}.getType();
             return gson.fromJson(reader, listType);
         } catch (IOException e) {
             System.err.println("Error loading categories: " + e.getMessage());
-            return categoryList;
+            return new ArrayList<>();
         }
     }
 
