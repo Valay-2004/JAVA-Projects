@@ -40,6 +40,21 @@ public class BudgetRepository {
         atomicWrite(budget, FILE_PATH);
     }
 
+    // adding budget
+    public boolean addBudget(Budget budget){
+        List<Budget> all = loadBudgets();
+        if(all.stream().anyMatch(b -> b.getId().equals(b.getId()))) return false;
+        all.add(budget);
+        saveBudget(all);
+        return true;
+    }
+
+//    // delete budget
+//    public boolean deleteBudget(){
+//        List<Budget> budgets = loadBudgets();
+//
+//    }
+
     // AtomicWrite
     public void atomicWrite(String content, String path){
         Path target = Path.of(path);
