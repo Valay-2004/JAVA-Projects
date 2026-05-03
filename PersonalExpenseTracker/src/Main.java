@@ -1,51 +1,74 @@
-import model.Category;
-import model.CategoryType;
-import model.Transaction;
-import model.TransactionType;
+import model.*;
+import model.dto.BudgetStatus;
+import repository.BudgetRepository;
 import repository.CategoryRepository;
 import repository.TransactionRepository;
+import service.BudgetService;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         // Main start of the project will be here
 
-//        // Transaction Trial
-//        TransactionRepository repo = new TransactionRepository();
-//
-//        // new transaction
-//        Transaction t = new Transaction(
-//                null, // auto-generate ID
-//                new BigDecimal("25.50"),
-//                LocalDate.now(),
-//                "cat-123",
-//                TransactionType.EXPENSE,
-//                "Lunch"
-//        );
-//
-//        System.out.println("Please wait!!");
-//        System.out.println("Saving transaction...");
-//        repo.saveTransaction(t);
-//
-//        System.out.println("Loading transaction...");
-//        List<Transaction> loaded = repo.loadAllTransactions();
-//        System.out.println("Loaded " + loaded.size() + " transactions");
-//        loaded.forEach(System.out::println);
-
+        // Setup repositories
+        TransactionRepository txnRepo = new TransactionRepository();
         CategoryRepository catRepo = new CategoryRepository();
-        //Load and print default cats
-        List<Category> cats = catRepo.loadCategories();
-        cats.forEach(c -> System.out.println(c.getName() + " (parent: " + c.getParentId() + ")"));
+        BudgetRepository bRepo = new BudgetRepository();
+        createTestBudgets(bRepo);
 
-// First add
-        Category gym1 = new Category("cat-gym-test", "Gym", null, CategoryType.USER);
-        System.out.println("First add: " + catRepo.addCategory(gym1)); // true
+        // Example: Add a $150 grocery expense in May
+        Transaction grocery = new Transaction(
+                null, // auto-ID
+                new BigDecimal("150.00"),
+                LocalDate.of(2026, 5, 10),
+                "cat-groceries", // Child of cat-food!
+                TransactionType.EXPENSE,
+                "Weekly groceries"
+        );
+        txnRepo.saveTransaction(grocery);
 
-// Second add with same ID
-        Category gym2 = new Category("cat-gym-test", "Gym Duplicate", null, CategoryType.USER);
-        System.out.println("Second add: " + catRepo.addCategory(gym2)); // false (duplicate ID)
+        // setup service
+        BudgetService service = new BudgetService(txnRepo, catRepo, bRepo);
+
+        // TEST 1: Recursive category traversal
+        List<Category> allCats = catRepo.loadCategories();
+        List<String> foodTree = service.getAllDescendantCategoryIds("cat-food", allCats);
+        System.out.println("Food category tree: " + foodTree);
+        // expected: [cat-food, cat-groceries, cat-dining] (or similar)
+
+        // TEST 2: Budget status calculation
+        // first, ensure you have:
+        // - A budget for "cat-food" with limit $500, date range Match 2024
+        // - Transactions:
+        //   * $150 on cat-groceries, March 5
+        //   * $200 on cat-dining, March 15
+        //   * $50 on cat-food (direct), March 20
+
+        BudgetStatus status = service.checkBudgetStatus("budget-food-march");
+        if (status != null) System.out.println("\nBudget Status: " + status);
+        else System.out.println("\n⚠️ Budget not found. Create one first!");
+
+        // TEST 3: Monthly report
+        System.out.println("\nMay 2026 Budget Report: ");
+        List<BudgetStatus> report = service.generateMonthlyReport(YearMonth.of(2026, 5));
+        report.forEach(System.out::println);
     }
+    // Add this method to Main.java
+    private static void createTestBudgets(BudgetRepository budgetRepo) {
+        // Create a budget for Food category, valid for May 2026, limit $500
+        Budget foodBudget = new Budget(
+                "budget-food-may",           // ID
+                "cat-food",                  // Category ID
+                new BigDecimal("500.00"),    // Limit
+                LocalDate.of(2026, 5, 1),    // Start date
+                LocalDate.of(2026, 5, 31)    // End date
+        );
+        budgetRepo.addBudget(foodBudget);
+        System.out.println("✅ Created test budget: budget-food-may");
+    }
+
 }
