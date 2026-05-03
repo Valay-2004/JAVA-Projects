@@ -49,11 +49,24 @@ public class BudgetRepository {
         return true;
     }
 
-//    // delete budget
-//    public boolean deleteBudget(){
-//        List<Budget> budgets = loadBudgets();
-//
-//    }
+    // delete budget
+    public boolean deleteBudget(String id){
+        List<Budget> budgets = loadBudgets();
+
+        // find the budget which needs to be deleted
+        Budget target = budgets.stream()
+                .filter(c -> c.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+
+        if (target == null) return false;
+
+        budgets.removeIf(c -> c.getId().equals(id));
+        saveBudget(budgets);
+        return true;
+    }
+
+    // Todo : updateBudget() as needed.
 
     // AtomicWrite
     public void atomicWrite(String content, String path){
