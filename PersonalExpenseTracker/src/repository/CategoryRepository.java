@@ -130,15 +130,21 @@ public class CategoryRepository {
 
     // Loading Default SYSTEM categories
     private void initializeDefaults(){
-        Path path = Paths.get(FILE_PATH);
-        if(Files.exists(path)) return;
-
         List<Category> defaults = Arrays.asList(
                 new Category("cat-food", "Food", null, CategoryType.SYSTEM),
                 new Category("cat-transport", "Transport", null, CategoryType.SYSTEM),
                 new Category("cat-groceries", "Groceries", "cat-food", CategoryType.SYSTEM),
                 new Category("cat-dining", "Dining Out", "cat-food", CategoryType.SYSTEM)
         );
+
+        List<Category> existing = loadCategories();
+
+        // Add only defaults that don't already exist
+        for(Category def : defaults){
+            if(existing.stream().noneMatch(c -> c.getId().equals(def.getId()))){
+                existing.add(def);
+            }
+        }
         saveCategories(defaults);
     }
 }
