@@ -47,13 +47,15 @@ public class BudgetService {
     public List<BudgetStatus> generateMonthlyReport(YearMonth yearMonth) {
         List<Budget> budgets = budgetRepo.loadBudgets();
         return budgets.stream()
-                .filter(b -> isBudgetInMonth(b, yearMonth.atEndOfMonth()))
+                .filter(b -> isBudgetInMonth(b, yearMonth))
                 .map(b -> checkBudgetStatus(b.getId()))
                 .collect(Collectors.toList());
     }
 
-    // private helper --> recursive tree traversal
-    private List<String> getAllDescendantCategoryIds(String parentId, List<Category> allCategories) {
+    // public helper --> recursive tree traversal
+    public List<String> getAllDescendantCategoryIds(String parentId, List<Category> allCategories) {
+        System.out.println("🔍 Traversing from: " + parentId); // Debug line
+
         List<String> result = new ArrayList<>();
         result.add(parentId); // include tha parent itself
 
@@ -62,6 +64,7 @@ public class BudgetService {
                 .filter(c -> parentId.equals(c.getParentId()))
                 .toList();
 
+        System.out.println("    Found " + children.size() + " direct children"); // debug line
         // Recursively add grandchildren etc.
         for (Category child : children) {
             result.addAll(getAllDescendantCategoryIds(child.getId(), allCategories));
@@ -83,7 +86,7 @@ public class BudgetService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    // private helper --> finding budget by Id
+    // private helper --> finding budget by id
     private Budget findBudgetById(String id) {
         List<Budget> budgets = budgetRepo.loadBudgets();
 
@@ -95,7 +98,7 @@ public class BudgetService {
     }
 
     // private --> does the given budget cover this month
-    private boolean isBudgetInMonth(Budget b, LocalDate yearMonth) {
+    private boolean isBudgetInMonth(Budget b, YearMonth yearMonth) {
         if (b == null || yearMonth == null) return false;
         // define the boundaries of the target month
         YearMonth targetMonth = YearMonth.from(yearMonth);
