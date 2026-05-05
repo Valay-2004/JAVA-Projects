@@ -21,14 +21,9 @@ public class Main {
         createTestBudgets(bRepo);
 
         // Example: Add a $150 grocery expense in May
-        Transaction grocery = new Transaction(
-                null, // auto-ID
-                new BigDecimal("150.00"),
-                LocalDate.of(2026, 5, 10),
-                "cat-groceries", // Child of cat-food!
-                TransactionType.EXPENSE,
-                "Weekly groceries"
-        );
+        Transaction grocery = new Transaction(null, // auto-ID
+                new BigDecimal("150.00"), LocalDate.of(2026, 5, 10), "cat-groceries", // Child of cat-food!
+                TransactionType.EXPENSE, "Weekly groceries");
         txnRepo.saveTransaction(grocery);
 
         // setup service
@@ -57,11 +52,11 @@ public class Main {
         List<BudgetStatus> report = service.generateMonthlyReport(YearMonth.of(2026, 5));
         report.forEach(System.out::println);
     }
+
     // Add this method to Main.java
     private static void createTestBudgets(BudgetRepository budgetRepo) {
         // Create a budget for Food category, valid for May 2026, limit $500
-        Budget foodBudget = new Budget(
-                "budget-food-may",           // ID
+        Budget foodBudget = new Budget("budget-food-may",           // ID
                 "cat-food",                  // Category ID
                 new BigDecimal("500.00"),    // Limit
                 LocalDate.of(2026, 5, 1),    // Start date

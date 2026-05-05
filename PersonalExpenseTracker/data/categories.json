@@ -1,1 +1,24 @@
-[{"id":"cat-food","name":"Food","type":"SYSTEM"},{"id":"cat-transport","name":"Transport","type":"SYSTEM"},{"id":"cat-groceries","name":"Groceries","parentId":"cat-food","type":"SYSTEM"},{"id":"cat-dining","name":"Dining Out","parentId":"cat-food","type":"SYSTEM"}]
+[
+  {
+    "id": "cat-food",
+    "name": "Food",
+    "type": "SYSTEM"
+  },
+  {
+    "id": "cat-transport",
+    "name": "Transport",
+    "type": "SYSTEM"
+  },
+  {
+    "id": "cat-groceries",
+    "name": "Groceries",
+    "parentId": "cat-food",
+    "type": "SYSTEM"
+  },
+  {
+    "id": "cat-dining",
+    "name": "Dining Out",
+    "parentId": "cat-food",
+    "type": "SYSTEM"
+  }
+]

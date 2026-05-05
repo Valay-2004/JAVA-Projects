@@ -1,5 +1,40 @@
-{"id":"6c0d8301-3b0d-4ae3-b61d-642a231af156","amount":25.50,"categoryId":"cat-123","type":"EXPENSE","note":"Lunch","date":"2026-04-28"}
-{"id":"9a7265ea-b49e-4c1e-9133-8fc71eb845e8","amount":150.00,"categoryId":"cat-groceries","type":"EXPENSE","note":"Weekly groceries","date":"2026-05-10"}
-{"id":"1a512d37-0634-469b-8838-6285a11aed35","amount":150.00,"categoryId":"cat-groceries","type":"EXPENSE","note":"Weekly groceries","date":"2026-05-10"}
-{"id":"cb1a371f-0c89-4fe7-80a7-d410112ba621","amount":150.00,"categoryId":"cat-groceries","type":"EXPENSE","note":"Weekly groceries","date":"2026-05-10"}
-{"id":"eb07872c-bacc-46ed-8763-aa5f3a9c5db9","amount":150.00,"categoryId":"cat-groceries","type":"EXPENSE","note":"Weekly groceries","date":"2026-05-10"}
+{
+  "id": "6c0d8301-3b0d-4ae3-b61d-642a231af156",
+  "amount": 25.50,
+  "categoryId": "cat-123",
+  "type": "EXPENSE",
+  "note": "Lunch",
+  "date": "2026-04-28"
+}
+{
+  "id": "9a7265ea-b49e-4c1e-9133-8fc71eb845e8",
+  "amount": 150.00,
+  "categoryId": "cat-groceries",
+  "type": "EXPENSE",
+  "note": "Weekly groceries",
+  "date": "2026-05-10"
+}
+{
+  "id": "1a512d37-0634-469b-8838-6285a11aed35",
+  "amount": 150.00,
+  "categoryId": "cat-groceries",
+  "type": "EXPENSE",
+  "note": "Weekly groceries",
+  "date": "2026-05-10"
+}
+{
+  "id": "cb1a371f-0c89-4fe7-80a7-d410112ba621",
+  "amount": 150.00,
+  "categoryId": "cat-groceries",
+  "type": "EXPENSE",
+  "note": "Weekly groceries",
+  "date": "2026-05-10"
+}
+{
+  "id": "eb07872c-bacc-46ed-8763-aa5f3a9c5db9",
+  "amount": 150.00,
+  "categoryId": "cat-groceries",
+  "type": "EXPENSE",
+  "note": "Weekly groceries",
+  "date": "2026-05-10"
+}
