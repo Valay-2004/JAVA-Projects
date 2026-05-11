@@ -20,6 +20,7 @@ All projects are written in pure Java, focusing on practical learning through ha
    2. [Student Grade Management System (StudentGMS)](./StudentGMS)
    3. [File Backup Utility](./FileBackupUtility/FileBackupUtility)
 4. [Inventory Management System](./InventoryManagementSystem)
+5. [Personal Expense Tracker](./PersonalExpenseTracker)
 
 ---
 ### How to Run Projects
