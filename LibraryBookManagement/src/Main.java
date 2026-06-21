@@ -4,13 +4,13 @@ void main(){
     // Start of the new project
     // Todo: start modeling the outline of the project
 
-    Author author0 = new Author("100", "F. Scott Fitzgerald");
-    Author author1 = new Author("101", "Le Grand Meaulnes");
-    Books newBook = new Books(
+    Author author0 = new Author("auth-100", "F. Scott Fitzgerald");
+    Author author1 = new Author("auth-101", "Le Grand Meaulnes");
+    Book newBook = new Book(
             "123",
             "The Great Gatsby",
             "9780743273565",
-            List.of("auth-001", "auth-002")
+            List.of("auth-100", "auth-101")
     );
 
     Patron patron = new Patron("001", "Qwen", "qwen@qwen.com", 10);
