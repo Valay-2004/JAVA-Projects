@@ -14,7 +14,7 @@ public class Loan {
         this.id = id;
         this.bookId = bookId;
         this.patronId = patronId;
-        this.loanDate = LocalDate.now();
+        this.loanDate = loanDate;
         this.dueDate = dueDate;
         this.returnDate = returnDate;
     }
