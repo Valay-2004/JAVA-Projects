@@ -2,13 +2,13 @@ package model;
 
 import java.util.List;
 
-public class Books {
+public class Book {
     private String id;
     private String title;
     private String isbn;
     private List<String> authorIds;
 
-    public Books(String id, String title, String isbn, List<String> authorIds) {
+    public Book(String id, String title, String isbn, List<String> authorIds) {
         this.id = id;
         this.title = title;
         this.isbn = isbn;
