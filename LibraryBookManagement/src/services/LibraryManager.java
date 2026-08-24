@@ -1,7 +1,7 @@
 package services;
 import model.*;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,5 +31,14 @@ public class LibraryManager {
     public Patron findPatronById(String id){
         if(id == null) return null;
         return patrons.get(id);
+    }
+
+
+    //  TO DO -- complete the below method
+    public boolean issueLoan(String loanId, String bookId, String patronId, LocalDate loanDate, LocalDate dueDate) {
+        // 1. Check if book and patron exist
+        // 2. Check if the patron has reached their maxBooksAllowed
+        // 3. If all good, create the Loan, add it to the map, and return true
+        // 4. If any check fails, return false
     }
 }
