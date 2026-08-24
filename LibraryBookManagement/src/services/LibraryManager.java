@@ -40,5 +40,6 @@ public class LibraryManager {
         // 2. Check if the patron has reached their maxBooksAllowed
         // 3. If all good, create the Loan, add it to the map, and return true
         // 4. If any check fails, return false
+        return true;
     }
 }
