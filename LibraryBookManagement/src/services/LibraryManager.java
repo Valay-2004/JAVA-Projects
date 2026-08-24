@@ -23,4 +23,13 @@ public class LibraryManager {
         // get the book id (if found)
         return books.get(id);
     }
+
+    // methods for patron
+    public void addPatron(Patron patron){
+        patrons.put(patron.getId(), patron);
+    }
+    public Patron findPatronById(String id){
+        if(id == null) return null;
+        return patrons.get(id);
+    }
 }
