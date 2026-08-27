@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.*;
 import java.time.LocalDate;
 
 public class Loan {
@@ -17,6 +18,10 @@ public class Loan {
         this.loanDate = loanDate;
         this.dueDate = dueDate;
         this.returnDate = returnDate;
+    }
+
+    public Loan(String id, String bookId, String patronId, LocalDate loanDate, LocalDate dueDate){
+        this(id, bookId, patronId, loanDate, dueDate, null);
     }
 
     public String getId() {
