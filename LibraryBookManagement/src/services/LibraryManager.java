@@ -43,8 +43,17 @@ public class LibraryManager {
         }
         // 2. Check if the patron has reached their maxBooksAllowed
         Patron patron = findPatronById(patronId);
-//        if()
+        int currCount = 0;
+        for(Loan loan : loans.values()){
+            if(loan.getPatronId().equals(patronId)) currCount++;
+        }
+
+        if(currCount >= patron.getMaxBooksAllowed()){
+            System.out.println("Your Quota for allowed books is full! Please return some books and try again!");
+            return false;
+        }
         // 3. If all good, create the Loan, add it to the map, and return true
+
         // 4. If any check fails, return false
         return true;
     }
