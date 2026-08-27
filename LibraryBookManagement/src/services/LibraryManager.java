@@ -63,4 +63,14 @@ public class LibraryManager {
         System.out.println("Your Loan id: " + newLoan.getId() + " with due date: " + newLoan.getDueDate() + " is added successfully!");
         return true;
     }
+
+    // TODO -- returnBook
+    public boolean returnBook(String loanId, LocalDate returnDate) {
+        // 1. Find the loan using loanId
+        // 2. Check if the loan exists AND if it is already returned (returnDate is not null)
+        // 3. If valid, update the loan's returnDate
+        // 4. Check if the book was returned late and print an appropriate message
+        // 5. Return true if successful, false otherwise
+        return true;
+    }
 }
