@@ -37,7 +37,13 @@ public class LibraryManager {
     //  TO DO -- complete the below method
     public boolean issueLoan(String loanId, String bookId, String patronId, LocalDate loanDate, LocalDate dueDate) {
         // 1. Check if book and patron exist
+        if(!books.containsKey(bookId) || !patrons.containsKey(patronId)){
+            System.out.println("Given Book ID or Patron ID is not available!");
+            return false;
+        }
         // 2. Check if the patron has reached their maxBooksAllowed
+        Patron patron = findPatronById(patronId);
+//        if()
         // 3. If all good, create the Loan, add it to the map, and return true
         // 4. If any check fails, return false
         return true;
