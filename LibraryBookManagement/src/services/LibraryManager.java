@@ -34,18 +34,22 @@ public class LibraryManager {
     }
 
 
-    //  TO DO -- complete the below method
     public boolean issueLoan(String loanId, String bookId, String patronId, LocalDate loanDate, LocalDate dueDate) {
         // 1. Check if book and patron exist
         if(!books.containsKey(bookId) || !patrons.containsKey(patronId)){
-            System.out.println("Given Book ID or Patron ID is not available!");
+            System.out.println("Given Book ID or Patron ID does not exist!");
+            return false;
+        }
+        // additional check for loanId if they by any chance collide!
+        if(loans.containsKey(loanId)){
+            System.out.println("Loan ID already exists!");
             return false;
         }
         // 2. Check if the patron has reached their maxBooksAllowed
         Patron patron = findPatronById(patronId);
         int currCount = 0;
         for(Loan loan : loans.values()){
-            if(loan.getPatronId().equals(patronId)) currCount++;
+            if(loan.getPatronId().equals(patronId) && loan.getReturnDate() == null) currCount++;
         }
 
         if(currCount >= patron.getMaxBooksAllowed()){
@@ -53,8 +57,10 @@ public class LibraryManager {
             return false;
         }
         // 3. If all good, create the Loan, add it to the map, and return true
-
+        Loan newLoan = new Loan(loanId, bookId, patronId, loanDate, dueDate);
+        loans.put(newLoan.getId(), newLoan);
         // 4. If any check fails, return false
+        System.out.println("Your Loan id: " + newLoan.getId() + " with due date: " + newLoan.getDueDate() + " is added successfully!");
         return true;
     }
 }
