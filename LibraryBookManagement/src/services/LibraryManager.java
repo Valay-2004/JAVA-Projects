@@ -67,9 +67,20 @@ public class LibraryManager {
     // TODO -- returnBook
     public boolean returnBook(String loanId, LocalDate returnDate) {
         // 1. Find the loan using loanId
+            Loan loan = loans.get(loanId);
         // 2. Check if the loan exists AND if it is already returned (returnDate is not null)
+        if(loan == null){
+            System.out.println("Loan Not Found!");
+            return false;
+        }
         // 3. If valid, update the loan's returnDate
+        loan.setReturnDate(returnDate);
         // 4. Check if the book was returned late and print an appropriate message
+        if(returnDate.isAfter(loan.getDueDate())){
+            System.out.println("Naah! you are a very late tweak bruhh..!!");
+        } else{
+            System.out.println("Yeah You're good to go brother!!");
+        }
         // 5. Return true if successful, false otherwise
         return true;
     }
