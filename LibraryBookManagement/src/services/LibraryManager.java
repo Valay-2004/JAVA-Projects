@@ -73,6 +73,10 @@ public class LibraryManager {
             System.out.println("Loan Not Found!");
             return false;
         }
+        if (loan.getReturnDate() != null) {
+            System.out.println("This book has already been returned!");
+            return false;
+        }
         // 3. If valid, update the loan's returnDate
         loan.setReturnDate(returnDate);
         // 4. Check if the book was returned late and print an appropriate message
