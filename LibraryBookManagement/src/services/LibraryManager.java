@@ -2,6 +2,7 @@ package services;
 import model.*;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -80,10 +81,15 @@ public class LibraryManager {
         loan.setReturnDate(returnDate);
         // 4. Check if the book was returned late and print an appropriate message
         if(returnDate.isAfter(loan.getDueDate())){
-            System.out.println("Book returned late. A fine of $0.5 per day may apply.");
+            System.out.println("Book returned late. A fine of $1.5 per day may apply.");
+            long daysLate = ChronoUnit.DAYS.between(loan.getDueDate(), returnDate);
+            double fine = daysLate * 1.5;
+            System.out.println("Your fine for returning the book late is : $" + fine);
         } else{
             System.out.println("Book is returned! Thank you!");
         }
         return true;
     }
+
+
 }
