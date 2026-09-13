@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Queue;
 
 public class LibraryManager {
     private final Map<String, Book> books = new HashMap<>();
@@ -12,6 +13,8 @@ public class LibraryManager {
     private final Map<String, Loan> loans = new HashMap<>();
     private final Map<String, Patron> patrons = new HashMap<>();
 
+    // for reservations
+    private final Map<String, Queue<Reservation>> reservations = new HashMap<>();
 
     // methods for books
     public void addBook(Book book){
@@ -91,5 +94,8 @@ public class LibraryManager {
         return true;
     }
 
+    public boolean reserveBook(String reservationId, String bookId, String patronId, LocalDate reservationDate){
+        return false;
+    }
 
 }
